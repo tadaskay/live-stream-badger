@@ -1,0 +1,12 @@
+.lsb-widget-table {
+	width: 100%;
+}
+
+.lsb-widget-table-stream-col {
+	padding: 3px;
+}
+
+.lsb-widget-table-status-col {
+	text-align: center;
+	padding: 3px;
+}
