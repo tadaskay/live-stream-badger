@@ -64,6 +64,9 @@ function lsb_update_all_stream_status( ) {
 	// with a channel name as the key
 	$j_results = array( );
 	$json = $query->get_results( );
+	if ( empty( $json ) )
+		return;
+
 	foreach ( $json as $j ) {
 		$j_live_user_split = explode( 'live_user_', $j['name'] );
 		$j_channel_name = ! empty( $j_live_user_split ) ? $j_live_user_split[1] : '';
@@ -71,6 +74,8 @@ function lsb_update_all_stream_status( ) {
 		if ( empty( $j_channel_name ) )
 			continue;
 
+		// Store results with channel key lower cased
+		$j_channel_name = strtolower($j_channel_name);
 		$j_results[$j_channel_name] = $j;
 	}
 

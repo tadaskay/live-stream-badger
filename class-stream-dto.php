@@ -58,7 +58,9 @@ class Stream_DTO {
 
 		$sb = new Stream_DTO();
 		$sb -> url = $stream_url;
-		$sb -> channel_name = esc_attr($channel_name);
+
+		// Channel name should be always lowercase
+		$sb -> channel_name = strtolower(esc_attr($channel_name));
 		return $sb;
 	}
 

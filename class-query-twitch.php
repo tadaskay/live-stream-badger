@@ -36,9 +36,11 @@ class Query_Twitch {
 	 * Returns decoded JSON as a query result
 	 */
 	function get_results() {
-		error_log("Executing Twitch query: " . $this->query_string);
-		$json_content = file_get_contents($this->query_string);
-		$j = json_decode($json_content, TRUE);
+		$response = wp_remote_retrieve_body( wp_remote_get( $this->query_string ) );
+		if ( empty( $response ) )
+			return NULL;
+
+		$j = json_decode($response, TRUE);
 		return $j;
 	}
 
