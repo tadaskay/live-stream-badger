@@ -42,9 +42,12 @@ class Stream_DTO {
 	 * Creates this DTO using given Stream URL
 	 */
 	static function from_url($stream_url) {
-		$url_explosion = explode('http://www.twitch.tv/', $stream_url);
-
+		// Clean URL
+		$stream_url = esc_url($stream_url);
+		
+		// Try parse channel name
 		$channel_name = '';
+		$url_explosion = explode('twitch.tv/', $stream_url);
 		if (count($url_explosion) == 2) {
 			$channel_name = $url_explosion[1];
 		}
@@ -55,7 +58,7 @@ class Stream_DTO {
 
 		$sb = new Stream_DTO();
 		$sb -> url = $stream_url;
-		$sb -> channel_name = $channel_name;
+		$sb -> channel_name = esc_attr($channel_name);
 		return $sb;
 	}
 

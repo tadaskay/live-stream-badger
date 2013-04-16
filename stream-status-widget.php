@@ -54,7 +54,7 @@ class LSB_Stream_Status_Widget extends WP_Widget {
 			$is_on = ($link->description != -1);
 			?>
 			<tr>
-				<td class="lsb-widget-table-stream-col"><a href="<?php echo $link->url; ?>" target="_blank"><?php echo apply_filters( 'the_title', $link->title ); ?></a></td>
+				<td class="lsb-widget-table-stream-col"><a href="<?php echo $link->url; ?>" target="_blank"><?php echo apply_filters( 'lsb_stream_status_widget_text', $link->title ); ?></a></td>
 				<td class="lsb-widget-table-status-col"><?php echo $is_on ? $link->description : 'Offline'; ?></td>
 			</tr>			
 			<?php

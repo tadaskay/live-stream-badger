@@ -3,9 +3,11 @@
  Plugin Name: Live Stream Badger
  Plugin URI: http://wordpress.org/extend/plugins/live-stream-badger/
  Description: Display status of Twitch.tv live streams
- Author: http://profiles.wordpress.org/tkrivickas
- Version: 1.0
- Author URI: http://wordpress.org/extend/plugins/live-stream-badger/
+ Version: 1.0.1 
+ Author: Tadas Krivickas
+ Author URI: http://profiles.wordpress.org/tkrivickas
+ Author email: tadas.krivickas@gmail.com
+ License: GPLv2 or later
  */
 
 if (!defined('LSB_PLUGIN_BASE_URL')) {
@@ -48,5 +50,7 @@ function lsb_create_schedule_def($schedules) {
 	$schedules['lsb_five_minutes'] = array('interval' => 60 * 5, 'display' => __('Each 5 minutes'));
 	return $schedules;
 }
+
+add_filter('lsb_stream_status_widget_text', 'do_shortcode');
 
 //eof
