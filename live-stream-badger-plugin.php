@@ -38,7 +38,7 @@ add_action( 'lsb_update_all_stream_status', array( $lsb_menu_item_updater, 'upda
 
 register_activation_hook( __FILE__, 'lsb_activation' );
 function lsb_activation() {
-	// wp_schedule_event(time(), 'lsb_five_minutes', 'lsb_update_all_stream_status');
+	 wp_schedule_event(time(), 'lsb_five_minutes', 'lsb_update_all_stream_status');
 }
 
 register_deactivation_hook( __FILE__, 'lsb_deactivation' );
