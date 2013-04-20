@@ -16,6 +16,8 @@ Simple Widget to display status of a Live Stream (Twitch.tv) on your website.
 = Features =
 * Shortcode support (you can add flags, see `F.A.Q`)
 
+Suggest new ideas and report issues in [Support section](http://wordpress.org/support/plugin/live-stream-badger)!
+
 Feedback is appreciated!
 
 == Installation ==
@@ -60,6 +62,9 @@ Hold on a second. Live stream status is scheduled to be updated every 5 minutes 
 
 == Changelog ==
 
+= 1.0.2-dev =
+* Implemented pluggable API to support other providers than Twitch in the future
+* Major refactoring
 = 1.0.1 =
 * Fixed shortcode support in Widget (link names)
 * Fixed channel status sometimes not updating because of non-standard URL
