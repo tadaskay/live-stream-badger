@@ -18,6 +18,7 @@ include_once ( LSB_PLUGIN_BASE_URL . '/apis/class-api-core.php' );
 include_once ( LSB_PLUGIN_BASE_URL . '/domain/domain-core.php' );
 
 include_once ( LSB_PLUGIN_BASE_URL . '/stream-status-widget.php' );
+include_once ( LSB_PLUGIN_BASE_URL . '/shortcode/class-embedded-stream.php' );
 include_once ( LSB_PLUGIN_BASE_URL . '/scheduler/class-menu-item-updater.php' );
 
 // Register widget
@@ -30,6 +31,10 @@ function lsb_register_styles() {
 	wp_enqueue_style( 'lsb-style' );
 }
 
+// Register shortcode
+$embedded_stream_sc = new LSB_Embedded_Stream();
+add_shortcode( 'livestream', array( $embedded_stream_sc, 'do_shortcode' ) );
+
 //
 // Register updater to start on activation/ stop on deactivation
 //
@@ -38,7 +43,7 @@ add_action( 'lsb_update_all_stream_status', array( $lsb_menu_item_updater, 'upda
 
 register_activation_hook( __FILE__, 'lsb_activation' );
 function lsb_activation() {
-	 wp_schedule_event(time(), 'lsb_five_minutes', 'lsb_update_all_stream_status');
+	wp_schedule_event( time(), 'lsb_five_minutes', 'lsb_update_all_stream_status' );
 }
 
 register_deactivation_hook( __FILE__, 'lsb_deactivation' );

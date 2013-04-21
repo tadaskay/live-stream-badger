@@ -9,7 +9,7 @@ class LSB_API_Twitch extends LSB_API {
 	const Q_CHANNEL_INFO = 'http://api.justin.tv/api/stream/list.json?channel=%s';
 
 	const FORMAT_CHANNEL_TO_URL = 'http://www.twitch.tv/%s';
-	const REGEX_TWITCH_URL      = '%http://(?:www)?\.twitch\.tv/([a-zA-Z0-9\-\.]+)(?:/.)?%';
+	const REGEX_TWITCH_URL      = '%http://(?:www)?\.twitch\.tv/([a-zA-Z0-9_\-\.]+)(?:/.)?%';
 
 	function get_api_identifier() {
 		return self::API_ID;
