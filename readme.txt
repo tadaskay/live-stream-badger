@@ -7,54 +7,55 @@ Stable tag: 1.0.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Display status of Twitch.tv live streams
+Display status of Twitch.tv livestreams
 
 == Description ==
 
-Simple Widget to display status of a Live Stream (Twitch.tv) on your website.
+All-in-one livestream (Twitch.TV) integration for your WordPress website.
 
 = Features =
-* Shortcode support (you can add flags, see `F.A.Q`)
+* Widget to display livestream status (Online/Offline)
+* Shortcode to embed a livestream: `[livestream url="http://www.twitch.tv/mychannel"]`
 
-Suggest new ideas and report issues in [Support section](http://wordpress.org/support/plugin/live-stream-badger)!
+= Planned features (to do) =
+* TinyMCE extension for user-friendly embedding of a livestream via shortcode
+* Thumbnails instead of simple links in the Widget
+* Top livestreams listed by category as a Widget
+* Support multiple livestream providers (e.g. Hashd.TV, Justin.TV, UStream.TV)
 
-Feedback is appreciated!
+= Have something to say? =
+[Suggest ideas, report issues or join development](http://wordpress.org/support/plugin/live-stream-badger)!
 
 == Installation ==
 
-1. Download and unzip the plugin into your WordPress plugins directory (usually `/wp-content/plugins/`).
-2. Activate the plugin through the 'Plugins' menu in WordPress.
-3. Using WordPress Appearance > Menus, create a menu with Custom Links to Live Stream channels (e.g. `http://www.twitch.tv/tobiwandota` as URL and `My favourite stream!` as a label).
-4. Place the widget on your sidebar through the 'Widgets' menu in your WordPress Admin.
-5. When configuring the widget, select a menu that contains your precious Live Stream links.
+1. Upload the `live-stream-badger` folder to the `/wp-content/plugins/` directory
+2. Activate the Live Stream Badger through the 'Plugins' menu in WordPress
+3. Done! Follow [Quickstart](http://wordpress.org/extend/plugins/live-stream-badger/quickstart/)
+
+== Quickstart ==
+
+= Configure 'Stream status' widget =
+
+1. Go to WordPress Appearance > Menus
+2. Create a new menu
+3. Create a custom link, add it to the menu and save. Link should point to the channel, e.g. `http://www.twitch.tv/tobiwandota` as URL and `My favourite stream!` as a label
+4. Go to Wordpress Appearance > Widgets
+5. Place 'LSB Stream Status' widget on the sidebar
+6. In widget configuration, select the menu you created in Step (3) and save
+7. Go to your website and you should see the livestream link in a widget
+8. Wait for about 5 minutes (stream status is updating) and refresh the page
+9. You should see a livestream link and its status (how many viewers are watching or 'Offline')
+
+= Embed a stream using the shortcode =
+
+1. Create new or edit a post
+2. Type in the following: `[livestream url="http://www.twitch.tv/tobiwandota"]`
+3. Save and view the post
+4. You should see an embedded livestream in the post
 
 == Frequently Asked Questions ==
 
-= Which live stream websites are supported? =
-
-Currently, only [Twitch.tv](http://www.twitch.tv) is supported. 
-Other platforms will be supported in the future versions.
-
-= How do I add Live Stream links? =
-
-Using 'Appearance' > 'Menus' in WordPress Admin:
- 
-1. Create a menu (you can name it 'Streams'). 
-2. Add Custom Links to this menu
-
-= How to add a flag next to link? =
-
-1. Install [World Flag plugin](http://wordpress.org/extend/plugins/world-flag/)
-2. Edit link name and add [flag country="us"]. Shortcodes are supported in link names!
-
-= It doesn't work! =
-
-1. Double check if your widget points to the correct menu.
-2. Check if menu items have valid Live Stream channel URLs (e.g. `http://www.twitch.tv/tobiwandota`) and names (e.g. `My live stream!`)
-
-= Status is not displayed next to each Live Stream! =
-
-Hold on a second. Live stream status is scheduled to be updated every 5 minutes to save your web server resources. If this is your first run, give it a few minutes after activation.
+No questions yet. [Ask one!](http://wordpress.org/support/plugin/live-stream-badger)
 
 == Screenshots ==
 
@@ -63,6 +64,7 @@ Hold on a second. Live stream status is scheduled to be updated every 5 minutes 
 == Changelog ==
 
 = 1.0.2-dev =
+* Added livestream shortcode!
 * Implemented pluggable API to support other providers than Twitch in the future
 * Major refactoring
 = 1.0.1 =
