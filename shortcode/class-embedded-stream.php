@@ -1,12 +1,14 @@
 <?php
 
+include_once LSB_PLUGIN_BASE_URL . '/view/class-embedded-twitch-view.php';
+
 class LSB_Embedded_Stream {
 
 	function do_shortcode( $attrs ) {
 		$defaults = array(
 			'url'    => '',
-			'width'  => '640',
-			'height' => '480'
+			'width'  => '620',
+			'height' => '378'
 		);
 		$attrs    = shortcode_atts( $defaults, $attrs );
 
@@ -21,8 +23,19 @@ class LSB_Embedded_Stream {
 		if ( empty( $stream_url ) )
 			return '';
 
-		$html = '<object type="application/x-shockwave-flash" height="378" width="620" id="live_embed_player_flash" data="http://www.twitch.tv/widgets/live_embed_player.swf?channel=' . $stream_url->channel_name . '" bgcolor="#000000"><param name="allowFullScreen" value="true" /><param name="allowScriptAccess" value="always" /><param name="allowNetworking" value="all" /><param name="movie" value="http://www.twitch.tv/widgets/live_embed_player.swf" /><param name="flashvars" value="hostname=www.twitch.tv&channel=' . $stream_url->channel_name . '&auto_play=true&start_volume=25" /></object>';
-		return $html;
+		$view = NULL;
+		switch ( $stream_url->api_id ) {
+			case 'twitch' :
+				$view = new LSB_Embedded_Twitch_View();
+				break;
+		}
+
+		if ( empty( $view ) )
+			return '';
+
+		$attrs['stream_url'] = $stream_url;
+
+		return $view->get_html( $attrs );
 	}
 
 }
