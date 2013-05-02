@@ -36,6 +36,13 @@ class LSB_Stream_Info {
 	 */
 	public $watching_now = -1;
 
+	/**
+	 * URL to the channel image
+	 *
+	 * @var string
+	 */
+	public $image_url = '';
+
 }
 
 //eof

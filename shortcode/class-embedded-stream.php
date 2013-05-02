@@ -5,12 +5,11 @@ include_once LSB_PLUGIN_BASE_URL . '/view/class-embedded-twitch-view.php';
 class LSB_Embedded_Stream {
 
 	function do_shortcode( $attrs ) {
-		$defaults = array(
-			'url'    => '',
-			'width'  => '620',
-			'height' => '378'
-		);
-		$attrs    = shortcode_atts( $defaults, $attrs );
+		$attrs = shortcode_atts( array(
+		                              'url'    => '',
+		                              'width'  => '620',
+		                              'height' => '378'
+		                         ), $attrs );
 
 		if ( empty( $attrs['url'] ) )
 			return '';
