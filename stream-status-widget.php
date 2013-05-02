@@ -51,23 +51,20 @@ class LSB_Stream_Status_Widget extends WP_Widget {
 
 		usort( $links, array( 'LSB_Stream_Status_Widget', 'sort_links_by_description_as_num' ) );
 		?>
-
-		<div>
-			<table class="lsb-widget-table">
-				<?php
-				foreach ( $links as $link ) {
-					$is_on = ( $link->description != -1 );
-					?>
-					<tr>
-						<td class="lsb-widget-table-stream-col"><a href="<?php echo $link->url; ?>"
-						                                           target="_blank"><?php echo apply_filters( 'lsb_stream_status_widget_text', $link->title ); ?></a>
-						</td>
-						<td class="lsb-widget-table-status-col"><?php echo $is_on ? $link->description : 'Offline'; ?></td>
-					</tr>
-				<?php
-				}
-				?>
-			</table>
+		<div class="lsb-status-widget-holder">
+			<ul>
+		<?php
+		foreach ( $links as $link ) {
+			$is_on = ( $link->description != -1 );
+		?>
+				<li>
+					<a href="<?php echo $link->url; ?>" target="_blank"><?php echo apply_filters( 'lsb_stream_status_widget_text', $link->title ); ?></a>
+					<span class="lsb-status-widget-indicator"><?php echo $is_on ? $link->description : 'Offline'; ?></span>
+				</li>
+		<?php
+		}
+		?>
+			</ul>
 		</div>
 
 		<?php

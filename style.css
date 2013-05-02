@@ -1,12 +1,15 @@
-.lsb-widget-table {
-	width: 100%;
+.lsb-status-widget-holder {
 }
 
-.lsb-widget-table-stream-col {
-	padding: 3px;
+.lsb-status-widget-holder ul {
+    list-style-type: none;
 }
 
-.lsb-widget-table-status-col {
-	text-align: center;
-	padding: 3px;
+.lsb-status-widget-holder ul li img {
+    margin: 3px; /* Make some space between image and text in title */
+    vertical-align: middle;
+}
+
+.lsb-status-widget-indicator {
+    float: right;
 }
