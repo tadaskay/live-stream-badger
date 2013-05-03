@@ -8,7 +8,12 @@ class LSB_Embedded_Stream {
 		$attrs = shortcode_atts( array(
 		                              'url'    => '',
 		                              'width'  => '620',
-		                              'height' => '378'
+		                              'height' => '378',
+		                              'stream' => TRUE,
+
+		                              'chat_width' => '620',
+		                              'chat_height' => '400',
+		                              'chat'   => FALSE
 		                         ), $attrs );
 
 		if ( empty( $attrs['url'] ) )

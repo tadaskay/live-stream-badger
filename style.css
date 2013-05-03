@@ -13,3 +13,13 @@
 .lsb-status-widget-indicator {
     float: right;
 }
+
+/* Embedded view */
+
+.lsb-embedded-view object {
+    max-width: 100%;
+}
+
+.lsb-embedded-chat iframe {
+    max-width: 100%;
+}

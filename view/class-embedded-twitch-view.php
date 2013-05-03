@@ -1,23 +1,37 @@
 <?php
 
-include_once ( 'class-view.php' );
+include_once( 'class-view.php' );
 
 class LSB_Embedded_Twitch_View extends LSB_View {
 
 	function get_html( $args ) {
 		/** @var $stream_url LSB_Stream_URL */
 		$stream_url = $args['stream_url'];
-		$w          = $args['width'];
-		$h          = $args['height'];
 
-		$html = '<object type="application/x-shockwave-flash" height="'.$h.'" width="'.$w.'" id="live_embed_player_flash" '
+		$w           = $args['width'];
+		$h           = $args['height'];
+		$show_stream = $args['stream'];
+
+		$cw        = $args['chat_width'];
+		$ch        = $args['chat_height'];
+		$show_chat = $args['chat'];
+
+		$html = '';
+
+		if ( $show_stream ) {
+			$html .= '<div class="lsb-embedded-view"><object type="application/x-shockwave-flash" height="' . $h . '" width="' . $w . '" id="live_embed_player_flash" '
 				. 'data="http://www.twitch.tv/widgets/live_embed_player.swf?channel=' . $stream_url->channel_name . '" bgcolor="#000000">'
 				. '<param name="allowFullScreen" value="true" />'
 				. '<param name="allowScriptAccess" value="always" />'
 				. '<param name="allowNetworking" value="all" />'
 				. '<param name="movie" value="http://www.twitch.tv/widgets/live_embed_player.swf" />'
 				. '<param name="flashvars" value="hostname=www.twitch.tv&channel=' . $stream_url->channel_name . '&auto_play=true&start_volume=25" />'
-				. '</object>';
+				. '</object></div>';
+		}
+
+		if ( $show_chat ) {
+			$html .= '<div class="lsb-embedded-chat"><iframe frameborder="0" scrolling="no" id="chat_embed" src="http://twitch.tv/chat/embed?channel=' . $stream_url->channel_name . '&amp;popout_chat=true" height = "' . $ch . '" width = "' . $cw . '" ></iframe></div>';
+		}
 
 		return $html;
 	}
