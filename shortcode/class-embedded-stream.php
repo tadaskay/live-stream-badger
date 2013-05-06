@@ -1,6 +1,6 @@
 <?php
 
-include_once LSB_PLUGIN_BASE_URL . '/view/class-embedded-twitch-view.php';
+include_once LSB_PLUGIN_BASE . 'view/class-embedded-twitch-view.php';
 
 class LSB_Embedded_Stream {
 

@@ -1,11 +1,10 @@
 <?php
 
-// Die if we haven't been included by WordPress
 if ( !defined( 'ABSPATH' ) )
 	die();
 
-include_once ( LSB_PLUGIN_BASE_URL . '/apis/class-api-core.php' );
-include_once ( LSB_PLUGIN_BASE_URL . '/domain/domain-core.php' );
+include_once ( LSB_PLUGIN_BASE . 'apis/class-api-core.php' );
+include_once ( LSB_PLUGIN_BASE . 'domain/domain-core.php' );
 
 /**
  * For usage in wp-cron.

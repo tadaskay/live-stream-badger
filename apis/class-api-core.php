@@ -2,7 +2,7 @@
 
 include_once ( 'class-api.php' );
 include_once ( 'class-api-twitch.php' );
-include_once LSB_PLUGIN_BASE_URL . '/domain/domain-core.php';
+include_once LSB_PLUGIN_BASE . 'domain/domain-core.php';
 
 /**
  * API Core provides access to all Live Stream APIs.

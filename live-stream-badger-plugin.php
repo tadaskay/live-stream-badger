@@ -10,16 +10,16 @@
  License: GPLv2 or later
  */
 
-if ( !defined( 'LSB_PLUGIN_BASE_URL' ) ) {
-	define( 'LSB_PLUGIN_BASE_URL', dirname( __FILE__ ) );
+if ( !defined( 'LSB_PLUGIN_BASE' ) ) {
+	define( 'LSB_PLUGIN_BASE', plugin_dir_path( __FILE__ ) );
 }
 
-include_once ( LSB_PLUGIN_BASE_URL . '/apis/class-api-core.php' );
-include_once ( LSB_PLUGIN_BASE_URL . '/domain/domain-core.php' );
+include_once( LSB_PLUGIN_BASE . 'apis/class-api-core.php' );
+include_once( LSB_PLUGIN_BASE . 'domain/domain-core.php' );
 
-include_once ( LSB_PLUGIN_BASE_URL . '/stream-status-widget.php' );
-include_once ( LSB_PLUGIN_BASE_URL . '/shortcode/class-embedded-stream.php' );
-include_once ( LSB_PLUGIN_BASE_URL . '/scheduler/class-menu-item-updater.php' );
+include_once( LSB_PLUGIN_BASE . 'stream-status-widget.php' );
+include_once( LSB_PLUGIN_BASE . 'shortcode/class-embedded-stream.php' );
+include_once( LSB_PLUGIN_BASE . 'scheduler/class-menu-item-updater.php' );
 
 // Register widget
 add_action( 'widgets_init', create_function( '', 'return register_widget("LSB_Stream_Status_Widget");' ) );
