@@ -53,6 +53,20 @@ All-in-one livestream (Twitch.TV) integration for your WordPress website.
 3. Save and view the post
 4. You should see an embedded livestream in the post
 
+= [livestream] shortcode reference =
+
+Sample usage: `[livestream url="http://www.twitch.tv/tobiwandota" chat="true"]`
+
+Parameters:
+
+1. url - URL of the livestream channel (string, default: '')
+2. width - width of livestream embed (int, default: 620)
+3. height - height of livestream embed (int, default: 378)
+4. stream - show stream? (boolean, default: true)
+5. chat_width - width of livestream chat (int, default: 620)
+6. chat_height - height of livestream chat (int, default: 400)
+7. chat - show chat? (boolean, default: false)
+
 == Frequently Asked Questions ==
 
 No questions yet. [Ask one!](http://wordpress.org/support/plugin/live-stream-badger)
