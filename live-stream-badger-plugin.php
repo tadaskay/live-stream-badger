@@ -43,7 +43,21 @@ add_action( 'lsb_update_all_stream_status', array( $lsb_menu_item_updater, 'upda
 
 register_activation_hook( __FILE__, 'lsb_activation' );
 function lsb_activation() {
+	lsb_health_check();
 	wp_schedule_event( time(), 'lsb_five_minutes', 'lsb_update_all_stream_status' );
+}
+
+function lsb_health_check() {
+	global $wp_version;
+	if ( version_compare( $wp_version, '3.4', '<' ) ) {
+		$antique_wp_version_message = 'Live Stream Badger requires WordPress 3.4 or newer. <a href="http://codex.wordpress.org/Upgrading_WordPress">Please update.</a>';
+		exit( $antique_wp_version_message );
+	}
+	$php_version = phpversion();
+	if ( version_compare( $php_version, '5.2', '<' ) ) {
+		$antique_php_version_message = 'Live Stream Badger requires PHP 5.2 or newer. Please inquiry your hosting provider for an upgrade.';
+		exit ( $antique_php_version_message );
+	}
 }
 
 register_deactivation_hook( __FILE__, 'lsb_deactivation' );
