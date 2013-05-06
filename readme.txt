@@ -3,7 +3,7 @@ Contributors: tkrivickas
 Tags: live stream, twitch, widget, menu
 Requires at least: 3.4
 Tested up to: 3.5.1
-Stable tag: 1.1
+Stable tag: 1.1.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -77,8 +77,12 @@ No questions yet. [Ask one!](http://wordpress.org/support/plugin/live-stream-bad
 
 == Changelog ==
 
-= 1.0.2-dev =
+= 1.1.1 =
+* Update of readme
+= 1.1 =
 * Added livestream shortcode!
+* Changed display from a table to a list
+* Several bugfixes reported in forum
 * Implemented pluggable API to support other providers than Twitch in the future
 * Major refactoring
 = 1.0.1 =
