@@ -3,7 +3,7 @@ Contributors: tkrivickas
 Tags: live stream, twitch, widget, menu
 Requires at least: 3.4
 Tested up to: 3.5.1
-Stable tag: 1.1.1
+Stable tag: 1.1.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -30,9 +30,7 @@ All-in-one livestream (Twitch.TV) integration for your WordPress website.
 
 1. Upload the `live-stream-badger` folder to the `/wp-content/plugins/` directory
 2. Activate the Live Stream Badger through the 'Plugins' menu in WordPress
-3. Done! Follow [Quickstart](http://wordpress.org/extend/plugins/live-stream-badger/quickstart/)
-
-== Quickstart ==
+3. Done! Follow steps below to get started.
 
 = Configure 'Stream status' widget =
 
@@ -77,8 +75,8 @@ No questions yet. [Ask one!](http://wordpress.org/support/plugin/live-stream-bad
 
 == Changelog ==
 
-= 1.1.1 =
-* Update of readme
+= 1.1.1-1.1.2 =
+* Update of readme and usage guide under 'Installation'
 = 1.1 =
 * Added livestream shortcode!
 * Changed display from a table to a list
