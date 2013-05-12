@@ -58,6 +58,10 @@ function lsb_health_check() {
 		$antique_php_version_message = 'Live Stream Badger requires PHP 5.2 or newer. Please inquiry your hosting provider for an upgrade.';
 		exit ( $antique_php_version_message );
 	}
+	if ( !wp_http_supports() ) {
+		$no_transport_message = 'No HTTP transport (curl, streams, fsockopen) is available. Please inquiry your hosting provider for an upgrade.';
+		exit ( $no_transport_message );
+	}
 }
 
 register_deactivation_hook( __FILE__, 'lsb_deactivation' );
