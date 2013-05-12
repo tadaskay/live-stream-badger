@@ -1,7 +1,7 @@
 === Live Stream Badger ===
 Contributors: tkrivickas
-Tags: live stream, twitch, widget, menu
-Requires at least: 3.4
+Tags: twitch, live stream, stream status, widget, menu
+Requires at least: 3.5
 Tested up to: 3.5.1
 Stable tag: 1.1.2
 License: GPLv2 or later
@@ -23,6 +23,10 @@ All-in-one livestream (Twitch.TV) integration for your WordPress website.
 * Top livestreams listed by category as a Widget
 * Support multiple livestream providers (e.g. Hashd.TV, Justin.TV, UStream.TV)
 
+= Requirements =
+* PHP 5.2 or later
+* WordPress 3.5 or later
+
 = Have something to say? =
 [Suggest ideas, report issues or join development](http://wordpress.org/support/plugin/live-stream-badger)!
 
@@ -43,6 +47,17 @@ All-in-one livestream (Twitch.TV) integration for your WordPress website.
 7. Go to your website and you should see the livestream link in a widget
 8. Wait for about 5 minutes (stream status is updating) and refresh the page
 9. You should see a livestream link and its status (how many viewers are watching or 'Offline')
+
+= 'Stream status' widget CSS classes =
+Use these in your own stylesheet to customize display of the widget.
+
+* `lsb-status-widget-holder` main container
+* `lsb-status-widget-list-item` list item for the stream list
+* `lsb-status-widget-indicator` stream status indicator
+* `lsb-on` online status
+* `lsb-off` offline status
+
+Classes `lsb-on` and `lsb-off` are added to both `lsb-status-widget-list-item` and `lsb-status-widget-indicator`. Selector example: `.lsb-status-widget-indicator.lsb-on`.
 
 = Embed a stream using the shortcode =
 
@@ -75,6 +90,9 @@ No questions yet. [Ask one!](http://wordpress.org/support/plugin/live-stream-bad
 
 == Changelog ==
 
+= 1.1.3
+* Added CSS classes for online/offline indicators in the widget
+* Changed required minimum WP version to 3.5
 = 1.1.1-1.1.2 =
 * Update of readme and usage guide under 'Installation'
 = 1.1 =
@@ -89,3 +107,7 @@ No questions yet. [Ask one!](http://wordpress.org/support/plugin/live-stream-bad
 * Switched to WP HTTP API
 = 1.0 =
 * Initial version
+
+== Upgrade Notice ==
+
+Please read the changelog before upgrading.

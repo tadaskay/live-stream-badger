@@ -49,8 +49,8 @@ function lsb_activation() {
 
 function lsb_health_check() {
 	global $wp_version;
-	if ( version_compare( $wp_version, '3.4', '<' ) ) {
-		$antique_wp_version_message = 'Live Stream Badger requires WordPress 3.4 or newer. <a href="http://codex.wordpress.org/Upgrading_WordPress">Please update.</a>';
+	if ( version_compare( $wp_version, '3.5', '<' ) ) {
+		$antique_wp_version_message = 'Live Stream Badger requires WordPress 3.5 or newer. <a href="http://codex.wordpress.org/Upgrading_WordPress">Please update.</a>';
 		exit( $antique_wp_version_message );
 	}
 	$php_version = phpversion();

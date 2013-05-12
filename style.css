@@ -10,8 +10,23 @@
     vertical-align: middle;
 }
 
+.lsb-status-widget-list-item {
+}
+
+.lsb-status-widget-list-item.lsb-on {
+}
+
+.lsb-status-widget-list-item.lsb-off {
+}
+
 .lsb-status-widget-indicator {
     float: right;
+}
+
+.lsb-status-widget-indicator.lsb-on {
+}
+
+.lsb-status-widget-indicator.lsb-off {
 }
 
 /* Embedded view */

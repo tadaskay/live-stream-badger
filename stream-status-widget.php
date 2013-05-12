@@ -56,10 +56,11 @@ class LSB_Stream_Status_Widget extends WP_Widget {
 		<?php
 		foreach ( $links as $link ) {
 			$is_on = ( $link->description != -1 );
+			$status_class = $is_on ? 'lsb-on' : 'lsb-off';
 		?>
-				<li>
+				<li class="lsb-status-widget-list-item <?php echo $status_class; ?>">
 					<a href="<?php echo $link->url; ?>" target="_blank"><?php echo apply_filters( 'lsb_stream_status_widget_text', $link->title ); ?></a>
-					<span class="lsb-status-widget-indicator"><?php echo $is_on ? $link->description : 'Offline'; ?></span>
+					<span class="lsb-status-widget-indicator <?php echo $status_class; ?>"><?php echo $is_on ? $link->description : 'Offline'; ?></span>
 				</li>
 		<?php
 		}
