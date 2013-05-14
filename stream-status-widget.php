@@ -1,5 +1,7 @@
 <?php
 
+include_once LSB_PLUGIN_BASE . 'apis/class-api-core.php';
+
 /**
  * Class Live Stream Widget.
  *
@@ -10,17 +12,6 @@ class LSB_Stream_Status_Widget extends WP_Widget {
 
 	function LSB_Stream_Status_Widget() {
 		parent::WP_Widget( FALSE, $name = 'LSB Stream Status' );
-	}
-
-	static function sort_links_by_description_as_num( $la, $lb ) {
-		$count_a = (int) $la->description;
-		$count_b = (int) $lb->description;
-
-		if ( $count_a == $count_b )
-			return 0;
-
-		$natural = ( $count_a > $count_b ) ? 1 : -1;
-		return ( -1 ) * $natural;
 	}
 
 	function widget( $args, $instance ) {
@@ -40,31 +31,45 @@ class LSB_Stream_Status_Widget extends WP_Widget {
 			echo $args['before_title'] . $instance['title'] . $args['after_title'];
 		}
 
+		$core = new LSB_API_Core();
+
 		// Get only those with links
 		$links = array();
 		foreach ( $menu_items as $m ) {
 			if ( empty( $m->url ) || empty( $m->title ) )
 				continue;
-
-			$links[] = $m;
+			$validated_urls = $core->validate_urls(array($m->url));
+			$validated_url = isset($validated_urls[0]) ? $validated_urls[0] : NULL;
+			$stream_id = LSB_Stream_Info::make_stream_id($validated_url->api_id, $validated_url->channel_name);
+			$links[$stream_id] = $m;
 		}
 
-		usort( $links, array( 'LSB_Stream_Status_Widget', 'sort_links_by_description_as_num' ) );
+		$store = new LSB_Widget_Stream_Store();
+		$stream_infos = $store->load();
+
+		usort( $stream_infos, array( 'LSB_Stream_Info', 'sort_by_watching_now' ) );
 		?>
 		<div class="lsb-status-widget-holder">
 			<ul>
-		<?php
-		foreach ( $links as $link ) {
-			$is_on = ( $link->description != -1 );
-			$status_class = $is_on ? 'lsb-on' : 'lsb-off';
-		?>
-				<li class="lsb-status-widget-list-item <?php echo $status_class; ?>">
-					<a href="<?php echo $link->url; ?>" target="_blank"><?php echo apply_filters( 'lsb_stream_status_widget_text', $link->title ); ?></a>
-					<span class="lsb-status-widget-indicator <?php echo $status_class; ?>"><?php echo $is_on ? $link->description : 'Offline'; ?></span>
-				</li>
-		<?php
-		}
-		?>
+				<?php
+				foreach ($stream_infos as $stream_info) {
+					/** @var $stream_info LSB_Stream_Info */
+					$menu_item = $links[LSB_Stream_Info::make_stream_id($stream_info->api_id, $stream_info->channel_name)];
+					if (empty($menu_item))
+						continue;
+
+					$is_on        = ( $stream_info->watching_now != -1 );
+					$status_class = $is_on ? 'lsb-on' : 'lsb-off';
+					?>
+					<li class="lsb-status-widget-list-item <?php echo $status_class; ?>">
+						<a href="<?php echo $menu_item->url; ?>"
+						   target="_blank"><?php echo apply_filters( 'lsb_stream_status_widget_text', $menu_item->title ); ?></a>
+						<span
+							class="lsb-status-widget-indicator <?php echo $status_class; ?>"><?php echo $is_on ? $stream_info->watching_now : 'Offline'; ?></span>
+					</li>
+				<?php
+				}
+				?>
 			</ul>
 		</div>
 

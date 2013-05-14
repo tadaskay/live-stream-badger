@@ -43,6 +43,35 @@ class LSB_Stream_Info {
 	 */
 	public $image_url = '';
 
+	/**
+	 * API ID
+	 *
+	 * @var string
+	 */
+	public $api_id = '';
+
+	/**
+	 * Builds a unique stream ID (API ID + channel name)
+	 *
+	 * @param string $api_id
+	 * @param string $channel_name
+	 *
+	 * @return string
+	 */
+	static function make_stream_id( $api_id, $channel_name ) {
+		return $api_id . '_' . $channel_name;
+	}
+
+	static function sort_by_watching_now( $la, $lb ) {
+		$count_a = (int) $la->watching_now;
+		$count_b = (int) $lb->watching_now;
+
+		if ( $count_a == $count_b )
+			return 0;
+
+		$natural = ( $count_a > $count_b ) ? 1 : -1;
+		return ( -1 ) * $natural;
+	}
 }
 
 //eof
