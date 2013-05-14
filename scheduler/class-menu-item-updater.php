@@ -3,9 +3,10 @@
 if ( !defined( 'ABSPATH' ) )
 	die();
 
-include_once( LSB_PLUGIN_BASE . 'apis/class-api-core.php' );
-include_once( LSB_PLUGIN_BASE . 'domain/domain-core.php' );
-include_once( LSB_PLUGIN_BASE . 'store/class-widget-stream-store.php' );
+include_once LSB_PLUGIN_BASE . 'apis/class-api-core.php';
+include_once LSB_PLUGIN_BASE . 'domain/class-stream-summary.php';
+include_once LSB_PLUGIN_BASE . 'store/class-stream-storage.php';
+include_once LSB_PLUGIN_BASE . 'domain/class-menu-item.php';
 
 /**
  * For usage in wp-cron.
@@ -26,10 +27,10 @@ class LSB_Menu_Item_Updater {
 
 		$api_core = new LSB_API_Core();
 
-		$validated_stream_urls = $api_core->validate_urls( $all_urls );
-		$stream_infos          = $api_core->query( $validated_stream_urls );
+		$stream_summaries = $api_core->validate_urls( $all_urls );
+		$streams          = $api_core->query( $stream_summaries );
 
-		$this->update_store( $validated_stream_urls, $stream_infos );
+		$this->update_store( $stream_summaries, $streams );
 	}
 
 	/**
@@ -83,46 +84,43 @@ class LSB_Menu_Item_Updater {
 	}
 
 	/**
-	 * Go through all validated stream URLs (found from menu items) and update with information from LSB_Stream_Info.
-	 * All information will be merged except for 'Watching now' (will be set to offline if not found in LSB_Stream_Info).
+	 * Updates store for all $stream_summaries with information from API ($streams).
+	 * All information will be merged except for 'Watching now' (will be set to offline if not found in LSB_Stream).
 	 *
 	 * When Stream info is not found for menu item, 'Watching now' is set to -1 (which is later
 	 * interpreted as 'Offline').
 	 *
-	 * @param $validated_stream_urls
-	 * @param $stream_infos
+	 * @param array $stream_summaries list of LSB_Stream_Summary to update information for
+	 * @param       $streams          array of LSB_Stream - information from API
 	 */
-	private function update_store( $validated_stream_urls, $stream_infos ) {
-		$store        = new LSB_Widget_Stream_Store();
+	private function update_store( $stream_summaries, $streams ) {
+		$store        = new LSB_Stream_Storage();
 		$stored_infos = $store->load();
 
 		$merged_infos = array();
 
-		foreach ( $validated_stream_urls as $u ) {
-			$stream_id = LSB_Stream_Info::make_stream_id( $u->api_id, $u->channel_name );
-			if (isset($merged_infos[$stream_id]))
+		foreach ( $stream_summaries as $summary ) {
+			/** @var $summary LSB_Stream_Summary */
+			if ( isset( $merged_infos[$summary->get_id()] ) )
 				// Can occur if the same link is in multiple menus
 				continue;
 
-			/** @var $u LSB_Stream_URL */
+			/** @var $update LSB_Stream_Summary */
 			$update = NULL;
-			foreach ( $stream_infos as $s ) {
-				/** @var $s LSB_Stream_Info */
-				if ( $s->original_url == $u->original_url ) {
-					$update = $s;
+			foreach ( $streams as $stream ) {
+				/** @var $stream LSB_Stream */
+				if ( $stream->summary->original_url == $summary->original_url ) {
+					$update = $stream;
 					break;
 				}
 			}
 
-			$stored = isset( $stored_infos[$stream_id] ) ? $stored_infos[$stream_id] : NULL;
+			$stored = isset( $stored_infos[$summary->get_id()] ) ? $stored_infos[$summary->get_id()] : NULL;
 
-			/** New menu item/stream info - not stored yet, populate with defaults */
 			if ( empty( $stored ) ) {
-				$stored               = new LSB_Stream_Info();
-				$stored->api_id       = $u->api_id;
-				$stored->url          = $u->url;
-				$stored->original_url = $u->original_url;
-				$stored->channel_name = $u->channel_name;
+				// A new menu item that is not in store yet
+				$stored          = new LSB_Stream();
+				$stored->summary = $summary;
 			}
 
 			if ( empty( $update ) ) {
@@ -134,10 +132,10 @@ class LSB_Menu_Item_Updater {
 				$stored->watching_now = $update->watching_now;
 			}
 
-			$merged_infos[$stream_id] = $stored;
+			$merged_infos[$summary->get_id()] = $stored;
 		}
 
-		$store->store($merged_infos);
+		$store->store( $merged_infos );
 	}
 
 }

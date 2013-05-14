@@ -1,34 +1,35 @@
 <?php
 
 include_once LSB_PLUGIN_BASE . 'view/class-embedded-twitch-view.php';
+include_once LSB_PLUGIN_BASE . 'domain/class-stream-summary.php';
 
 class LSB_Embedded_Stream {
 
 	function do_shortcode( $attrs ) {
 		$attrs = shortcode_atts( array(
-		                              'url'    => '',
-		                              'width'  => '620',
-		                              'height' => '378',
-		                              'stream' => TRUE,
+		                              'url'         => '',
+		                              'width'       => '620',
+		                              'height'      => '378',
+		                              'stream'      => TRUE,
 
-		                              'chat_width' => '620',
+		                              'chat_width'  => '620',
 		                              'chat_height' => '400',
-		                              'chat'   => FALSE
+		                              'chat'        => FALSE
 		                         ), $attrs );
 
 		if ( empty( $attrs['url'] ) )
 			return '';
 
-		$api_core       = new LSB_API_Core();
-		$validated_urls = $api_core->validate_urls( array( $attrs['url'] ) );
-		$stream_url     = !empty( $validated_urls ) ? $validated_urls[0] : NULL;
+		$api_core         = new LSB_API_Core();
+		$stream_summaries = $api_core->validate_urls( array( $attrs['url'] ) );
+		$stream_summary   = !empty( $stream_summaries ) ? $stream_summaries[0] : NULL;
 
-		/** @var $stream_url LSB_Stream_URL */
+		/** @var $stream_summary LSB_Stream_Summary */
 		if ( empty( $stream_url ) )
 			return '';
 
 		$view = NULL;
-		switch ( $stream_url->api_id ) {
+		switch ( $stream_summary->api_id ) {
 			case 'twitch' :
 				$view = new LSB_Embedded_Twitch_View();
 				break;
@@ -37,7 +38,7 @@ class LSB_Embedded_Stream {
 		if ( empty( $view ) )
 			return '';
 
-		$attrs['stream_url'] = $stream_url;
+		$attrs['stream_summary'] = $stream_summary;
 
 		return $view->get_html( $attrs );
 	}

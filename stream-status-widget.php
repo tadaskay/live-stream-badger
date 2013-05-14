@@ -1,6 +1,9 @@
 <?php
 
 include_once LSB_PLUGIN_BASE . 'apis/class-api-core.php';
+include_once LSB_PLUGIN_BASE . 'domain/class-stream.php';
+include_once LSB_PLUGIN_BASE . 'domain/class-stream-summary.php';
+include_once LSB_PLUGIN_BASE . 'store/class-stream-storage.php';
 
 /**
  * Class Live Stream Widget.
@@ -38,34 +41,37 @@ class LSB_Stream_Status_Widget extends WP_Widget {
 		foreach ( $menu_items as $m ) {
 			if ( empty( $m->url ) || empty( $m->title ) )
 				continue;
-			$validated_urls = $core->validate_urls(array($m->url));
-			$validated_url = isset($validated_urls[0]) ? $validated_urls[0] : NULL;
-			$stream_id = LSB_Stream_Info::make_stream_id($validated_url->api_id, $validated_url->channel_name);
-			$links[$stream_id] = $m;
+			$stream_summaries = $core->validate_urls( array( $m->url ) );
+			/** @var $stream_summary LSB_Stream_Summary */
+			$stream_summary = isset( $stream_summaries[0] ) ? $stream_summaries[0] : NULL;
+			if ( empty( $stream_summary ) )
+				continue;
+
+			$links[$stream_summary->get_id()] = $m;
 		}
 
-		$store = new LSB_Widget_Stream_Store();
-		$stream_infos = $store->load();
+		$store   = new LSB_Stream_Storage();
+		$streams = $store->load();
 
-		usort( $stream_infos, array( 'LSB_Stream_Info', 'sort_by_watching_now' ) );
+		usort( $streams, array( 'LSB_Stream', 'sort_by_watching_now' ) );
 		?>
 		<div class="lsb-status-widget-holder">
 			<ul>
 				<?php
-				foreach ($stream_infos as $stream_info) {
-					/** @var $stream_info LSB_Stream_Info */
-					$menu_item = $links[LSB_Stream_Info::make_stream_id($stream_info->api_id, $stream_info->channel_name)];
-					if (empty($menu_item))
+				foreach ( $streams as $stream ) {
+					/** @var $stream LSB_Stream */
+					$menu_item = $links[$stream->summary->get_id()];
+					if ( empty( $menu_item ) )
 						continue;
 
-					$is_on        = ( $stream_info->watching_now != -1 );
+					$is_on        = ( $stream->watching_now != -1 );
 					$status_class = $is_on ? 'lsb-on' : 'lsb-off';
 					?>
 					<li class="lsb-status-widget-list-item <?php echo $status_class; ?>">
 						<a href="<?php echo $menu_item->url; ?>"
 						   target="_blank"><?php echo apply_filters( 'lsb_stream_status_widget_text', $menu_item->title ); ?></a>
 						<span
-							class="lsb-status-widget-indicator <?php echo $status_class; ?>"><?php echo $is_on ? $stream_info->watching_now : 'Offline'; ?></span>
+							class="lsb-status-widget-indicator <?php echo $status_class; ?>"><?php echo $is_on ? $stream->watching_now : 'Offline'; ?></span>
 					</li>
 				<?php
 				}

@@ -6,19 +6,19 @@
 abstract class LSB_API {
 
 	/**
-	 * Executes query for all given URLs.
+	 * Executes query for the given stream summaries.
 	 *
-	 * @param array $urls List of LSB_Stream_URL to query, validated
+	 * @param array $stream_summaries List of LSB_Stream_Summary to query, validated
 	 *
-	 * @return array List of LSB_Stream_Info
+	 * @return array List of LSB_Stream
 	 */
-	function query( $urls ) {
+	function query( $stream_summaries ) {
 
 		// Build channel names for query
 		$channel_names = array();
-		foreach ( $urls as $url ) {
-			/** @var $url LSB_Stream_URL */
-			$channel_names[] = $url->channel_name;
+		foreach ( $stream_summaries as $stream_summary ) {
+			/** @var $url LSB_Stream_Summary */
+			$channel_names[] = $stream_summary->channel_name;
 		}
 
 		if ( empty( $channel_names ) )
@@ -33,29 +33,29 @@ abstract class LSB_API {
 		if ( empty( $response ) )
 			return array();
 
-		$stream_infos = $this->map_results( $response );
+		$streams = $this->map_results( $response );
 
 		// Map original URL (for malformed URLs where url != original_url)
-		foreach ( $stream_infos as $s ) {
-			/** @var $s LSB_Stream_Info */
-			foreach ( $urls as $url ) {
-				/** @var $url LSB_Stream_URL */
-				if ( $s->url == $url->url ) {
-					$s->original_url = $url->original_url;
-					break; // Go to next Stream info
+		foreach ( $streams as $stream ) {
+			/** @var $stream LSB_Stream */
+			foreach ( $stream_summaries as $stream_summary ) {
+				/** @var $url LSB_Stream_Summary */
+				if ( $stream->summary->url == $stream_summary->url ) {
+					$stream->summary->original_url = $stream_summary->original_url;
+					break; // Go to the next Stream
 				}
 			}
 		}
 
-		return $stream_infos;
+		return $streams;
 	}
 
 	/**
-	 * Checks if API supports given URL - if supported, returns LSB_Stream_URL.
+	 * Checks if API supports given URL - if supported, returns LSB_Stream_Summary.
 	 *
 	 * @param string $url
 	 *
-	 * @return LSB_Stream_URL
+	 * @return LSB_Stream_Summary
 	 */
 	function validate_url( $url ) {
 		$original_url = $url;
@@ -68,14 +68,14 @@ abstract class LSB_API {
 		if ( empty( $channel_name ) )
 			return;
 
-		$stream_url = new LSB_Stream_URL();
+		$summary = new LSB_Stream_Summary();
 
-		$stream_url->original_url = $original_url;
-		$stream_url->url          = $url;
-		$stream_url->channel_name = $channel_name;
-		$stream_url->api_id       = $this->get_api_identifier();
+		$summary->original_url = $original_url;
+		$summary->url          = $url;
+		$summary->channel_name = $channel_name;
+		$summary->api_id       = $this->get_api_identifier();
 
-		return $stream_url;
+		return $summary;
 	}
 
 	/**
@@ -143,7 +143,7 @@ abstract class LSB_API {
 	abstract protected function create_query_string( $channel_names );
 
 	/**
-	 * Maps API response to a list of {@link LSB_Stream_Info}.
+	 * Maps API response to a list of {@link LSB_Stream}.
 	 *
 	 * @param $result_string
 	 *

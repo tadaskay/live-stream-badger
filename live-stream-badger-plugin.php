@@ -14,12 +14,10 @@ if ( !defined( 'LSB_PLUGIN_BASE' ) ) {
 	define( 'LSB_PLUGIN_BASE', plugin_dir_path( __FILE__ ) );
 }
 
-include_once( LSB_PLUGIN_BASE . 'apis/class-api-core.php' );
-include_once( LSB_PLUGIN_BASE . 'domain/domain-core.php' );
-
-include_once( LSB_PLUGIN_BASE . 'stream-status-widget.php' );
-include_once( LSB_PLUGIN_BASE . 'shortcode/class-embedded-stream.php' );
-include_once( LSB_PLUGIN_BASE . 'scheduler/class-menu-item-updater.php' );
+include_once LSB_PLUGIN_BASE . 'apis/class-api-core.php';
+include_once LSB_PLUGIN_BASE . 'stream-status-widget.php';
+include_once LSB_PLUGIN_BASE . 'shortcode/class-embedded-stream.php';
+include_once LSB_PLUGIN_BASE . 'scheduler/class-menu-item-updater.php';
 
 // Register widget
 add_action( 'widgets_init', create_function( '', 'return register_widget("LSB_Stream_Status_Widget");' ) );
@@ -44,6 +42,7 @@ add_action( 'lsb_update_all_stream_status', array( $lsb_menu_item_updater, 'upda
 register_activation_hook( __FILE__, 'lsb_activation' );
 function lsb_activation() {
 	lsb_health_check();
+	wp_schedule_single_event( time(), 'lsb_update_all_stream_status' );
 	wp_schedule_event( time(), 'lsb_five_minutes', 'lsb_update_all_stream_status' );
 }
 
