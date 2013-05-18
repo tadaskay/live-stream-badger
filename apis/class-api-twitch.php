@@ -62,6 +62,9 @@ class LSB_API_Twitch extends LSB_API {
 			$stream_dto->summary->url          = $url;
 			$stream_dto->watching_now = $j['channel_count'];
 
+			$stream_dto->image_url = $j['channel']['image_url_huge'];
+			$stream_dto->screen_cap_url = $j['channel']['screen_cap_url_huge'];
+
 			$dtos[] = $stream_dto;
 		}
 

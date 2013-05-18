@@ -18,6 +18,7 @@ class LSB_Stream_Status_Widget extends WP_Widget {
 	}
 
 	function widget( $args, $instance ) {
+		$display_type = isset( $instance['display_type'] ) ? $instance['display_type'] : 'text';
 
 		// Get menu items for configured menu
 		$menu_items = !empty( $instance['menu_id'] ) ? wp_get_nav_menu_items( $instance['menu_id'] ) : FALSE;
@@ -68,10 +69,31 @@ class LSB_Stream_Status_Widget extends WP_Widget {
 					$status_class = $is_on ? 'lsb-on' : 'lsb-off';
 					?>
 					<li class="lsb-status-widget-list-item <?php echo $status_class; ?>">
-						<a href="<?php echo $menu_item->url; ?>"
-						   target="_blank"><?php echo apply_filters( 'lsb_stream_status_widget_text', $menu_item->title ); ?></a>
+						<span class="lsb-status-widget-title">
+							<a href="<?php echo $menu_item->url; ?>"
+							   target="_blank"><?php echo apply_filters( 'lsb_stream_status_widget_text', $menu_item->title ); ?></a>
+						</span>
 						<span
 							class="lsb-status-widget-indicator <?php echo $status_class; ?>"><?php echo $is_on ? $stream->watching_now : 'Offline'; ?></span>
+						<?php
+						if ( $is_on && $display_type == 'screen_cap' && !empty( $stream->screen_cap_url ) ) {
+							?>
+							<span class="lsb-status-widget-image">
+								<a href="<?php echo $menu_item->url; ?>" target="_blank">
+									<img src="<?php echo $stream->screen_cap_url; ?>">
+								</a>
+							</span>
+						<?php
+						} else if ( $display_type == 'image' && !empty ( $stream->image_url)) {
+							?>
+							<span class="lsb-status-widget-image">
+								<a href="<?php echo $menu_item->url; ?>" target="_blank">
+									<img src="<?php echo $stream->image_url; ?>">
+								</a>
+							</span>
+							<?php
+						}
+						?>
 					</li>
 				<?php
 				}
@@ -86,15 +108,17 @@ class LSB_Stream_Status_Widget extends WP_Widget {
 	function update( $new_instance, $old_instance ) {
 		$instance = $old_instance;
 
-		$instance['title']   = strip_tags( stripslashes( $new_instance['title'] ) );
-		$instance['menu_id'] = (int) $new_instance['menu_id'];
+		$instance['title']        = strip_tags( stripslashes( $new_instance['title'] ) );
+		$instance['menu_id']      = (int) $new_instance['menu_id'];
+		$instance['display_type'] = $new_instance['display_type'];
 
 		return $instance;
 	}
 
 	function form( $instance ) {
-		$title   = isset( $instance['title'] ) ? $instance['title'] : '';
-		$menu_id = isset( $instance['menu_id'] ) ? $instance['menu_id'] : '';
+		$title        = isset( $instance['title'] ) ? $instance['title'] : '';
+		$menu_id      = isset( $instance['menu_id'] ) ? $instance['menu_id'] : '';
+		$display_type = isset ( $instance['display_type'] ) ? $instance['display_type'] : 'text';
 
 		$menus = get_terms( 'nav_menu', array( 'hide_empty' => FALSE ) );
 
@@ -120,6 +144,14 @@ class LSB_Stream_Status_Widget extends WP_Widget {
 					echo '<option value="' . $menu->term_id . '"' . selected( $menu_id, $menu->term_id, FALSE ) . '>' . $menu->name . '</option>';
 				}
 				?>
+			</select>
+
+			<label name="<?php echo $this->get_field_id( 'display_type' ); ?>"><?php _e( 'Display type' ); ?></label>
+			<select class="widefat" name="<?php echo $this->get_field_name( 'display_type' ); ?>""
+			id="<?php echo $this->get_field_id( 'display_type' ); ?>">
+			<option value="text" <?php selected( $display_type, 'text' ) ?>>Text</option>
+			<option value="screen_cap" <?php selected( $display_type, 'screen_cap' ) ?>>Screen Capture</option>
+			<option value="image" <?php selected( $display_type, 'image' ) ?>>Channel's image</option>
 			</select>
 		</p>
 	<?php

@@ -30,6 +30,8 @@ class LSB_Stream {
 	 */
 	public $image_url = '';
 
+	public $screen_cap_url = '';
+
 	function __construct() {
 		$this->summary = new LSB_Stream_Summary();
 	}

@@ -105,7 +105,7 @@ class LSB_Menu_Item_Updater {
 				// Can occur if the same link is in multiple menus
 				continue;
 
-			/** @var $update LSB_Stream_Summary */
+			/** @var $update LSB_Stream */
 			$update = NULL;
 			foreach ( $streams as $stream ) {
 				/** @var $stream LSB_Stream */
@@ -130,6 +130,8 @@ class LSB_Menu_Item_Updater {
 			else {
 				// There is an update from API, copy data
 				$stored->watching_now = $update->watching_now;
+				$stored->image_url = $update->image_url;
+				$stored->screen_cap_url = $update->screen_cap_url;
 			}
 
 			$merged_infos[$summary->get_id()] = $stored;

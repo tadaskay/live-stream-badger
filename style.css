@@ -5,11 +5,6 @@
     list-style-type: none;
 }
 
-.lsb-status-widget-holder ul li img {
-    margin: 3px; /* Make some space between image and text in title */
-    vertical-align: middle;
-}
-
 .lsb-status-widget-list-item {
 }
 
@@ -17,6 +12,15 @@
 }
 
 .lsb-status-widget-list-item.lsb-off {
+}
+
+.lsb-status-widget-title {
+}
+
+/* Images in stream title (via shortcode) */
+.lsb-status-widget-title img {
+    margin: 3px; /* Make some space between image and text in title */
+    vertical-align: middle;
 }
 
 .lsb-status-widget-indicator {
@@ -27,6 +31,14 @@
 }
 
 .lsb-status-widget-indicator.lsb-off {
+}
+
+.lsb-status-widget-image, .lsb-status-widget-image > a {
+    width: 100%;
+}
+
+.lsb-status-widget-image img {
+    max-width: 100%;
 }
 
 /* Embedded view */
