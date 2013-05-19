@@ -156,41 +156,47 @@ class LSB_Stream_Status_Widget extends WP_Widget {
 		// Output options (title, menu select)
 		?>
 		<p>
-			<label name="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title' ); ?></label>
-			<input type="text" class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>"
-			       name="<?php echo $this->get_field_name( 'title' ); ?>" value="<?php echo $title; ?>"/>
+			<label>
+				<?php _e( 'Title' ); ?>
+				<input type="text" class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>"
+				       value="<?php echo $title; ?>"/>
+			</label>
 		</p>
 		<p>
-			<label name="<?php echo $this->get_field_id( 'menu_id' ); ?>"><?php _e( 'Select menu:' ); ?></label>
-			<select name="<?php echo $this->get_field_name( 'menu_id' ); ?>"
-			        id="<?php echo $this->get_field_id( 'menu_id' ); ?>">
-				<?php
-				foreach ( $menus as $menu ) {
-					echo '<option value="' . $menu->term_id . '"' . selected( $menu_id, $menu->term_id, FALSE ) . '>' . $menu->name . '</option>';
-				}
-				?>
-			</select>
+			<label>
+				<?php _e( 'Select menu containing stream links:' ); ?>
+				<select class="widefat" name="<?php echo $this->get_field_name( 'menu_id' ); ?>" id="<?php echo $this->get_field_id( 'menu_id' ); ?>">
+					<?php
+					foreach ( $menus as $menu ) {
+						echo '<option value="' . $menu->term_id . '"' . selected( $menu_id, $menu->term_id, FALSE ) . '>' . $menu->name . '</option>';
+					}
+					?>
+				</select>
+			</label>
 		</p>
 		<p>
-			<label name="<?php echo $this->get_field_id( 'display_type' ); ?>"><?php _e( 'Display type:' ); ?></label>
-			<select name="<?php echo $this->get_field_name( 'display_type' ); ?>""
-			id="<?php echo $this->get_field_id( 'display_type' ); ?>">
-			<option value="text" <?php selected( $display_type, 'text' ) ?>>Text</option>
-			<option value="screen_cap" <?php selected( $display_type, 'screen_cap' ) ?>>Screen Capture</option>
-			<option value="image" <?php selected( $display_type, 'image' ) ?>>Channel's image</option>
-			</select>
+			<label>
+				<?php _e( 'Display type:' ); ?>
+				<select name="<?php echo $this->get_field_name( 'display_type' ); ?>" id="<?php echo $this->get_field_id( 'display_type' ); ?>">
+					<option value="text" <?php selected( $display_type, 'text' ) ?>>Text</option>
+					<option value="screen_cap" <?php selected( $display_type, 'screen_cap' ) ?>>Screen Capture</option>
+					<option value="image" <?php selected( $display_type, 'image' ) ?>>Channel's image</option>
+				</select>
+			</label>
 		</p>
 		<p>
-			<label name="<?php echo $this->get_field_id( 'hide_offline' ); ?>"><?php _e( 'Hide offline?' ); ?></label>
-			<input type="checkbox" id="<?php echo $this->get_field_id( 'hide_offline' ); ?>"
-			       name="<?php echo $this->get_field_name( 'hide_offline' ); ?>" <?php checked( $hide_offline ) ?>
-			       value="1"/>
+			<label>
+				<input type="checkbox" id="<?php echo $this->get_field_id( 'hide_offline' ); ?>" name="<?php echo $this->get_field_name( 'hide_offline' ); ?>"
+					<?php checked( $hide_offline ) ?> value="1"/>
+				<?php _e( 'Hide offline?' ); ?>
+			</label>
 		</p>
 		<p>
-			<label name="<?php echo $this->get_field_id( 'hide_offline_images' ); ?>"><?php _e( 'Hide offline images?' ); ?></label>
-			<input type="checkbox" id="<?php echo $this->get_field_id( 'hide_offline_images' ); ?>"
-			       name="<?php echo $this->get_field_name( 'hide_offline_images' ); ?>" <?php checked( $hide_offline_images ) ?>
-			       value="1"/>
+			<label>
+				<input type="checkbox" id="<?php echo $this->get_field_id( 'hide_offline_images' ); ?>" name="<?php echo $this->get_field_name( 'hide_offline_images' ); ?>"
+					<?php checked( $hide_offline_images ) ?> value="1"/>
+				<?php _e( 'Hide offline images?' ); ?>
+			</label>
 		</p>
 	<?php
 	} // form()
