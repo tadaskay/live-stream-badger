@@ -13,7 +13,7 @@ include_once LSB_PLUGIN_BASE . 'domain/class-menu-item.php';
  * Updates all menu items containing stream links with status from Twitch.tv API using settings configured in the Widget.
  * 'Watching now' count is stored in $nav_menu_item->description.
  */
-class LSB_Menu_Item_Updater {
+class LSB_API_Sync {
 
 	function updateAll() {
 		$all_widget_settings = $this->get_all_widget_configuration();

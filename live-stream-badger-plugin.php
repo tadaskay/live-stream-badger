@@ -17,7 +17,7 @@ if ( !defined( 'LSB_PLUGIN_BASE' ) ) {
 include_once LSB_PLUGIN_BASE . 'apis/class-api-core.php';
 include_once LSB_PLUGIN_BASE . 'stream-status-widget.php';
 include_once LSB_PLUGIN_BASE . 'shortcode/class-embedded-stream.php';
-include_once LSB_PLUGIN_BASE . 'scheduler/class-menu-item-updater.php';
+include_once LSB_PLUGIN_BASE . 'scheduler/class-api-sync.php';
 
 // Register widget
 add_action( 'widgets_init', create_function( '', 'return register_widget("LSB_Stream_Status_Widget");' ) );
@@ -34,10 +34,11 @@ $embedded_stream_sc = new LSB_Embedded_Stream();
 add_shortcode( 'livestream', array( $embedded_stream_sc, 'do_shortcode' ) );
 
 //
-// Register updater to start on activation/ stop on deactivation
+// Hook synchronization with APIs to certain actions
 //
-$lsb_menu_item_updater = new LSB_Menu_Item_Updater();
-add_action( 'lsb_update_all_stream_status', array( $lsb_menu_item_updater, 'updateAll' ) );
+$lsb_api_sync = new LSB_API_Sync();
+add_action( 'lsb_update_all_stream_status', array( $lsb_api_sync, 'updateAll' ) ); // Scheduled action (5 minutes)
+add_action( 'wp_update_nav_menu', array( $lsb_api_sync, 'updateAll' ) );           // When an administrator updates any menu
 
 register_activation_hook( __FILE__, 'lsb_activation' );
 function lsb_activation() {
