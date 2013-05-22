@@ -56,6 +56,17 @@ class LSB_Stream {
 		return ( -1 ) * $natural;
 	}
 
+	static function sort_by_status( $la, $lb ) {
+		$count_a = $la->watching_now;
+		$count_b = $lb->watching_now;
+
+		if ( ( -1 == $count_a && -1 == $count_b ) || ( -1 != $count_a && -1 != $count_b ) )
+			return 0;
+
+		$natural = ( $count_a > $count_b ) ? 1 : -1;
+		return ( -1 ) * $natural;
+	}
+
 }
 
 //eof

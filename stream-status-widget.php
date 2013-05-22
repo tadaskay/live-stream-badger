@@ -3,6 +3,7 @@
 include_once LSB_PLUGIN_BASE . 'apis/class-api-core.php';
 include_once LSB_PLUGIN_BASE . 'domain/class-stream.php';
 include_once LSB_PLUGIN_BASE . 'domain/class-stream-summary.php';
+include_once LSB_PLUGIN_BASE . 'domain/class-stream-sorter.php';
 include_once LSB_PLUGIN_BASE . 'store/class-stream-storage.php';
 
 /**
@@ -21,6 +22,7 @@ class LSB_Stream_Status_Widget extends WP_Widget {
 		$display_type        = isset ( $instance['display_type'] ) ? $instance['display_type'] : 'text';
 		$hide_offline        = isset ( $instance['hide_offline'] ) ? $instance['hide_offline'] : FALSE;
 		$hide_offline_images = isset ( $instance['hide_offline_images'] ) ? $instance['hide_offline_images'] : FALSE;
+		$sorting_strategy    = isset ( $instance['sorting_strategy'] ) ? $instance['sorting_strategy'] : 'by_watching_now';
 
 		// Get menu items for configured menu
 		$menu_items = !empty( $instance['menu_id'] ) ? wp_get_nav_menu_items( $instance['menu_id'] ) : FALSE;
@@ -58,7 +60,17 @@ class LSB_Stream_Status_Widget extends WP_Widget {
 		$store   = new LSB_Stream_Storage();
 		$streams = $store->load();
 
-		usort( $streams, array( 'LSB_Stream', 'sort_by_watching_now' ) );
+		$stream_sorter = new LSB_Stream_Sorter( $links );
+		if ( $sorting_strategy == 'by_status' ) {
+			usort( $streams, array( $stream_sorter, 'sort_by_status' ) );
+		}
+		else if ( $sorting_strategy == 'by_watching_now' ) {
+			usort( $streams, array( $stream_sorter, 'sort_by_watching_now' ) );
+		}
+		else {
+			usort( $streams, array( $stream_sorter, 'sort_by_menu_order' ) );
+		}
+
 		?>
 		<div class="lsb-status-widget-holder">
 			<ul>
@@ -135,6 +147,8 @@ class LSB_Stream_Status_Widget extends WP_Widget {
 		$instance['hide_offline']        = $new_instance['hide_offline'];
 		$instance['hide_offline_images'] = $new_instance['hide_offline_images'];
 
+		$instance['sorting_strategy'] = $new_instance['sorting_strategy'];
+
 		return $instance;
 	}
 
@@ -144,6 +158,7 @@ class LSB_Stream_Status_Widget extends WP_Widget {
 		$display_type        = isset ( $instance['display_type'] ) ? $instance['display_type'] : 'text';
 		$hide_offline        = isset ( $instance['hide_offline'] ) ? $instance['hide_offline'] : FALSE;
 		$hide_offline_images = isset ( $instance['hide_offline_images'] ) ? $instance['hide_offline_images'] : FALSE;
+		$sorting_strategy    = isset( $instance['sorting_strategy'] ) ? $instance['sorting_strategy'] : 'by_watching_now';
 
 		$menus = get_terms( 'nav_menu', array( 'hide_empty' => FALSE ) );
 
@@ -196,6 +211,16 @@ class LSB_Stream_Status_Widget extends WP_Widget {
 				<input type="checkbox" id="<?php echo $this->get_field_id( 'hide_offline_images' ); ?>" name="<?php echo $this->get_field_name( 'hide_offline_images' ); ?>"
 					<?php checked( $hide_offline_images ) ?> value="1"/>
 				<?php _e( 'Hide offline images?' ); ?>
+			</label>
+		</p>
+		<p>
+			<label>
+				<?php _e( 'Sort streams by:' ); ?>
+				<select name="<?php echo $this->get_field_name( 'sorting_strategy' ); ?>" id="<?php echo $this->get_field_id( 'sorting_strategy' ); ?>">
+					<option value="by_watching_now" <?php selected( $sorting_strategy, 'by_watching_now' ) ?>>Watching Now</option>
+					<option value="by_status" <?php selected( $sorting_strategy, 'by_status' ) ?>>Status</option>
+					<option value="no_sort" <?php selected( $sorting_strategy, 'no_sort' ) ?>>No sort</option>
+				</select>
 			</label>
 		</p>
 	<?php
