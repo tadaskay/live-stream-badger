@@ -14,8 +14,10 @@ Display status of Twitch.tv livestreams
 All-in-one livestream (Twitch.TV) integration for your WordPress website.
 
 = Features =
-* Widget to display livestream status (Online/Offline)
+* Widget to display livestream status.
 * Shortcode to embed a livestream: `[livestream url="http://www.twitch.tv/mychannel"]`
+
+Works out-of-the-box, but you can customize it.
 
 = Planned features (to do) =
 * TinyMCE extension for user-friendly embedding of a livestream via shortcode
@@ -90,9 +92,13 @@ No questions yet. [Ask one!](http://wordpress.org/support/plugin/live-stream-bad
 
 == Changelog ==
 
-= 1.1.3
-* Added CSS classes for online/offline indicators in the widget
-* Changed required minimum WP version to 3.5
+= 1.2
+* New Feature: Sort streams
+* New Feature: Display screen capture or channel image
+* Improvement: Plugin now uses transient storage (should work fast with caching plugins)
+* Improvement: Added CSS classes for online/offline indicators in the widget
+* Improvement: Changed required minimum WP version to 3.5
+* Improvement: Major refactoring
 = 1.1.1-1.1.2 =
 * Update of readme and usage guide under 'Installation'
 = 1.1 =
