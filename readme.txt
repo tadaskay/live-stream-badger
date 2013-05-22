@@ -3,7 +3,7 @@ Contributors: tkrivickas
 Tags: twitch, live stream, stream status, widget, menu
 Requires at least: 3.5
 Tested up to: 3.5.1
-Stable tag: 1.1.2
+Stable tag: 1.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -15,13 +15,13 @@ All-in-one livestream (Twitch.TV) integration for your WordPress website.
 
 = Features =
 * Widget to display livestream status.
+* Streams can be displayed as Images, Screen captures or as a text.
 * Shortcode to embed a livestream: `[livestream url="http://www.twitch.tv/mychannel"]`
 
 Works out-of-the-box, but you can customize it.
 
 = Planned features (to do) =
 * TinyMCE extension for user-friendly embedding of a livestream via shortcode
-* Thumbnails instead of simple links in the Widget
 * Top livestreams listed by category as a Widget
 * Support multiple livestream providers (e.g. Hashd.TV, Justin.TV, UStream.TV)
 
@@ -97,6 +97,7 @@ No questions yet. [Ask one!](http://wordpress.org/support/plugin/live-stream-bad
 * New Feature: Display screen capture or channel image
 * Improvement: Plugin now uses transient storage (should work fast with caching plugins)
 * Improvement: Added CSS classes for online/offline indicators in the widget
+* Improvement: Added health check for HTTP transport (plugin will not activate if technical requirements are not met)
 * Improvement: Changed required minimum WP version to 3.5
 * Improvement: Major refactoring
 = 1.1.1-1.1.2 =
