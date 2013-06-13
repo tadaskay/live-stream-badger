@@ -3,7 +3,7 @@ Contributors: tkrivickas
 Tags: twitch, live stream, stream status, widget, menu
 Requires at least: 3.5
 Tested up to: 3.5.1
-Stable tag: 1.2.1
+Stable tag: 1.2.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -92,6 +92,8 @@ No questions yet. [Ask one!](http://wordpress.org/support/plugin/live-stream-bad
 
 == Changelog ==
 
+= 1.2.2 =
+* Bugfix: shortcode embed not working
 = 1.2 =
 * New Feature: Sort streams
 * New Feature: Display screen capture or channel image
