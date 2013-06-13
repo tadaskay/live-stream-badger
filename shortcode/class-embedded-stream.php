@@ -25,7 +25,7 @@ class LSB_Embedded_Stream {
 		$stream_summary   = !empty( $stream_summaries ) ? $stream_summaries[0] : NULL;
 
 		/** @var $stream_summary LSB_Stream_Summary */
-		if ( empty( $stream_url ) )
+		if ( empty( $stream_summary ) )
 			return '';
 
 		$view = NULL;

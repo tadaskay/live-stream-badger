@@ -31,7 +31,7 @@ class LSB_Embedded_Twitch_View extends LSB_View {
 		}
 
 		if ( $show_chat ) {
-			$html .= '<div class="lsb-embedded-chat"><iframe frameborder="0" scrolling="no" id="chat_embed" src="http://twitch.tv/chat/embed?channel=' . $stream_url->channel_name . '&amp;popout_chat=true" height = "' . $ch . '" width = "' . $cw . '" ></iframe></div>';
+			$html .= '<div class="lsb-embedded-chat"><iframe frameborder="0" scrolling="no" id="chat_embed" src="http://twitch.tv/chat/embed?channel=' . $stream_summary->channel_name . '&amp;popout_chat=true" height="' . $ch . '" width="' . $cw . '" ></iframe></div>';
 		}
 
 		return $html;
