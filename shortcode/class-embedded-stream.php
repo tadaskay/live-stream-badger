@@ -14,7 +14,9 @@ class LSB_Embedded_Stream {
 
 		                              'chat_width'  => '620',
 		                              'chat_height' => '400',
-		                              'chat'        => FALSE
+		                              'chat'        => FALSE,
+									  
+									  'autoplay'    => TRUE
 		                         ), $attrs );
 
 		if ( empty( $attrs['url'] ) )

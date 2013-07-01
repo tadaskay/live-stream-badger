@@ -81,6 +81,7 @@ Parameters:
 5. chat_width - width of livestream chat (int, default: 620)
 6. chat_height - height of livestream chat (int, default: 400)
 7. chat - show chat? (boolean, default: false)
+8. autoplay - automatically play embedded content (boolean, default: true)
 
 == Frequently Asked Questions ==
 
@@ -92,6 +93,8 @@ No questions yet. [Ask one!](http://wordpress.org/support/plugin/live-stream-bad
 
 == Changelog ==
 
+= 1.2.3 =
+* Improvement: Added shortcode parameter to disable autoplay
 = 1.2.2 =
 * Bugfix: shortcode embed not working
 = 1.2 =

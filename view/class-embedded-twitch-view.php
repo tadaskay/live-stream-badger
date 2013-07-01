@@ -16,6 +16,8 @@ class LSB_Embedded_Twitch_View extends LSB_View {
 		$cw        = $args['chat_width'];
 		$ch        = $args['chat_height'];
 		$show_chat = $args['chat'];
+		
+		$autoplay  = $args['autoplay'];
 
 		$html = '';
 
@@ -26,7 +28,7 @@ class LSB_Embedded_Twitch_View extends LSB_View {
 				. '<param name="allowScriptAccess" value="always" />'
 				. '<param name="allowNetworking" value="all" />'
 				. '<param name="movie" value="http://www.twitch.tv/widgets/live_embed_player.swf" />'
-				. '<param name="flashvars" value="hostname=www.twitch.tv&channel=' . $stream_summary->channel_name . '&auto_play=true&start_volume=25" />'
+				. '<param name="flashvars" value="hostname=www.twitch.tv&channel=' . $stream_summary->channel_name . ($autoplay === TRUE ? '&auto_play=true' : '') . '&start_volume=25" />'
 				. '</object></div>';
 		}
 
