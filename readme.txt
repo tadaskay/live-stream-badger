@@ -17,6 +17,7 @@ All-in-one livestream (Twitch.TV) integration for your WordPress website.
 * Widget to display livestream status.
 * Streams can be displayed as Images, Screen captures or as a text.
 * Shortcode to embed a livestream: `[livestream url="http://www.twitch.tv/mychannel"]`
+* Easy customization using CSS, WordPress hooks and filters
 
 Works out-of-the-box, but you can customize it.
 
@@ -93,8 +94,9 @@ No questions yet. [Ask one!](http://wordpress.org/support/plugin/live-stream-bad
 
 == Changelog ==
 
-= 1.2.3 =
+= 1.3 =
 * Improvement: Added shortcode parameter to disable autoplay
+* New feature: Added templates for customizing widget output. Filters added: `lsb_status_widget_format`, `lsb_status_widget_item_format`, `lsb_status_widget_item_with_image_format`, `lsb_status_widget_no_content_format`. See `stream-status-widget.php` for more details.
 = 1.2.2 =
 * Bugfix: shortcode embed not working
 = 1.2 =

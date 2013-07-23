@@ -5,6 +5,7 @@ include_once LSB_PLUGIN_BASE . 'domain/class-stream.php';
 include_once LSB_PLUGIN_BASE . 'domain/class-stream-summary.php';
 include_once LSB_PLUGIN_BASE . 'domain/class-stream-sorter.php';
 include_once LSB_PLUGIN_BASE . 'store/class-stream-storage.php';
+include_once LSB_PLUGIN_BASE . 'functions.php';
 
 /**
  * Class Live Stream Widget.
@@ -71,68 +72,109 @@ class LSB_Stream_Status_Widget extends WP_Widget {
 			usort( $streams, array( $stream_sorter, 'sort_by_menu_order' ) );
 		}
 
-		?>
-		<div class="lsb-status-widget-holder">
-			<ul>
-				<?php
-				foreach ( $streams as $stream ) {
-					/** @var $stream LSB_Stream */
-					$stream_id = $stream->summary->get_id();
-					$menu_item = isset( $links[$stream_id] ) ? $links[$stream_id] : NULL;
-					if ( empty( $menu_item ) )
-						continue;
+        // Display format templates
 
-					$is_on = ( $stream->watching_now != -1 );
-					if ( !$is_on && $hide_offline )
-						continue;
+		$lsb_status_widget_format = 
+			'<div class="lsb-status-widget-holder"><ul>%%items%%</ul></div>';
+		$lsb_status_widget_format = apply_filters( 'lsb_status_widget_format', $lsb_status_widget_format );
 
-					$any_content_rendered = TRUE;
+		$lsb_status_widget_item_format = 
+			'<li class="lsb-status-widget-list-item %%status_class%%">'.
+			'  <span class="lsb-status-widget-title">'.
+			'    <a href="%%url%%" target="_blank">%%title%%</a>'.
+			'  </span>'.
+			'  <span class="lsb-status-widget-indicator %%status_class%%">%%status_indicator%%</span>'.
+			'</li>';
+		$lsb_status_widget_item_format = apply_filters( 'lsb_status_widget_item_format', $lsb_status_widget_item_format );
 
-					$status_class = $is_on ? 'lsb-on' : 'lsb-off';
-					?>
-					<li class="lsb-status-widget-list-item <?php echo $status_class; ?>">
-						<span class="lsb-status-widget-title">
-							<a href="<?php echo $menu_item->url; ?>"
-							   target="_blank"><?php echo apply_filters( 'lsb_stream_status_widget_text', $menu_item->title ); ?></a>
-						</span>
-						<span class="lsb-status-widget-indicator <?php echo $status_class; ?>"><?php echo $is_on ? $stream->watching_now : 'Offline'; ?></span>
-						<?php
-						if ( $is_on || !$hide_offline_images ) {
-							if ( $display_type == 'screen_cap' && !empty( $stream->screen_cap_url ) ) {
-								?>
-								<span class="lsb-status-widget-image">
-								<a href="<?php echo $menu_item->url; ?>" target="_blank">
-									<img src="<?php echo $stream->screen_cap_url; ?>">
-								</a>
-							</span>
-							<?php
-							}
-							else if ( $display_type == 'image' && !empty ( $stream->image_url ) ) {
-								?>
-								<span class="lsb-status-widget-image">
-								<a href="<?php echo $menu_item->url; ?>" target="_blank">
-									<img src="<?php echo $stream->image_url; ?>">
-								</a>
-							</span>
-							<?php
-							}
-						}
-						?>
-					</li>
-				<?php
+		$lsb_status_widget_item_with_image_format = 
+			'<li class="lsb-status-widget-list-item %%status_class%%">'.
+			'  <span class="lsb-status-widget-title">'.
+			'    <a href="%%url%%" target="_blank">%%title%%</a>'.
+			'  </span>'.
+			'  <span class="lsb-status-widget-indicator %%status_class%%">%%status_indicator%%</span>'.
+			'  <span class="lsb-status-widget-image">'.
+			'    <a href="%%url%%" target="_blank">'.
+			'      <img src="%%image_src%%">'.
+			'    </a>'.
+			'  </span>'.
+			'</li>';
+		$lsb_status_widget_item_with_image_format = apply_filters( 'lsb_status_widget_item_with_image_format', $lsb_status_widget_item_with_image_format );
+
+		$lsb_status_widget_no_content_format =
+			'<div class="lsb-status-widget-holder"><span class="lsb-status-widget-info">%%message%%</span></div>';
+		$lsb_status_widget_no_content_format = apply_filters( 'lsb_status_widget_no_content_format', $lsb_status_widget_no_content_format );
+
+		$container = '';
+		$items = '';
+
+		foreach ( $streams as $stream ) {
+			/** @var $stream LSB_Stream */
+			$stream_id = $stream->summary->get_id();
+			$menu_item = isset( $links[$stream_id] ) ? $links[$stream_id] : NULL;
+			if ( empty( $menu_item ) )
+				continue;
+
+			$is_on = ( $stream->watching_now != -1 );
+			if ( !$is_on && $hide_offline )
+				continue;
+
+			$var_image_src = '';
+			if ( $is_on || !$hide_offline_images ) {
+				if ( $display_type == 'screen_cap' && !empty( $stream->screen_cap_url ) ) {
+					$var_image_src = $stream->screen_cap_url;
+				} else if ( $display_type == 'image' && !empty ( $stream->image_url ) ) {
+					$var_image_src = $stream->image_url;
 				}
-				?>
-			</ul>
-			<?php
-			if ( !$any_content_rendered ) {
-				?>
-				<span class="lsb-status-widget-info"><?php _e( 'No streams available' ); ?></span>
-			<?php
 			}
-			?>
-		</div>
+			$show_image = !empty( $var_image_src );
 
-		<?php
+			$var_status_class = $is_on ? 'lsb-on' : 'lsb-off';
+			$var_url = $menu_item->url;
+			$var_title = apply_filters( 'lsb_stream_status_widget_text', $menu_item->title );
+			$var_status_indicator = $is_on ? $stream->watching_now : 'Offline';
+
+			$item = '';
+			if ($show_image === TRUE) {
+				$item = lsb_template_sprintf( $lsb_status_widget_item_with_image_format,
+					array(
+						'%%status_class%%'     => $var_status_class,
+						'%%url%%'              => $var_url,
+						'%%title%%'            => $var_title,
+						'%%status_indicator%%' => $var_status_indicator,
+						'%%image_src%%'        => $var_image_src
+					)
+				);
+			} else {
+				$item = lsb_template_sprintf( $lsb_status_widget_item_format,
+					array(
+						'%%status_class%%'     => $var_status_class,
+						'%%url%%'              => $var_url,
+						'%%title%%'            => $var_title,
+						'%%status_indicator%%' => $var_status_indicator
+					)
+				);
+			}
+
+			$items .= $item;
+		}
+
+		if ( !empty( $items ) ) {
+			$container = lsb_template_sprintf( $lsb_status_widget_format,
+				array(
+					'%%items%%' => $items
+				)
+			);
+		} else {
+			$container = lsb_template_sprintf( $lsb_status_widget_no_content_format, 
+				array(
+					'%%message%%' => __( 'No streams available' )
+				)
+			);
+		}
+
+		echo $container;
+
 		echo $args['after_widget'];
 	} // widget()
 
