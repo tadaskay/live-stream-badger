@@ -15,6 +15,10 @@ if ( !defined( 'LSB_PLUGIN_BASE' ) ) {
 	define( 'LSB_PLUGIN_BASE', plugin_dir_path( __FILE__ ) );
 }
 
+// Includes: admin
+include_once LSB_PLUGIN_BASE . 'admin/admin-settings.php';
+include_once LSB_PLUGIN_BASE . 'admin/diagnostics.php';
+// Includes: other
 include_once LSB_PLUGIN_BASE . 'apis/class-api-core.php';
 include_once LSB_PLUGIN_BASE . 'stream-status-widget.php';
 include_once LSB_PLUGIN_BASE . 'shortcode/class-embedded-stream.php';
@@ -80,5 +84,9 @@ function lsb_create_schedule_def( $schedules ) {
 }
 
 add_filter( 'lsb_stream_status_widget_text', 'do_shortcode' );
+
+new LSB_Admin_Settings(
+    new LSB_Diagnostics()
+);
 
 //eof
