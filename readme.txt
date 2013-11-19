@@ -2,10 +2,10 @@
 Contributors: tkrivickas
 Tags: twitch, live stream, stream status, widget, menu
 Requires at least: 3.5
-Tested up to: 3.5.1
+Tested up to: 3.7.1
 Stable tag: 1.3
-License: GPLv2 or later
-License URI: http://www.gnu.org/licenses/gpl-2.0.html
+License: GPLv3
+License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
 Display status of Twitch.tv livestreams
 
@@ -90,7 +90,7 @@ No questions yet. [Ask one!](http://wordpress.org/support/plugin/live-stream-bad
 
 == Screenshots ==
 
-1. Live Stream Badger widget is Live! *Note: Flags are provided by another plugin, by using a shortcode in menu item's label*
+1. Live Stream Badger widget is Live!
 
 == Changelog ==
 
