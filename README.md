@@ -1,11 +1,11 @@
 # Live Stream Badger #
-**Contributors:** tkrivickas
-**Tags:** twitch, live stream, stream status, widget, menu
-**Requires at least:** 3.5
-**Tested up to:** 3.7.1
-**Stable tag:** 1.3
-**License:** GPLv3
-**License URI:** http://www.gnu.org/licenses/gpl-3.0.html
+**Contributors:** tkrivickas  
+**Tags:** twitch, live stream, stream status, widget, menu  
+**Requires at least:** 3.5  
+**Tested up to:** 3.7.1  
+**Stable tag:** 1.3  
+**License:** GPLv3  
+**License URI:** http://www.gnu.org/licenses/gpl-3.0.html  
 
 Display status of Twitch.tv livestreams
 
@@ -44,7 +44,7 @@ Works out-of-the-box, but you can customize it.
 1. Go to WordPress Appearance > Menus
 2. Create a new menu
 3. Create a custom link, add it to the menu and save. Link should point to the channel, e.g. `http://www.twitch.tv/tobiwandota` as URL and `My favourite stream!` as a label
-4. Go to Wordpress Appearance > Widgets
+4. Go to WordPress Appearance > Widgets
 5. Place 'LSB Stream Status' widget on the sidebar
 6. In widget configuration, select the menu you created in Step (3) and save
 7. Go to your website and you should see the livestream link in a widget
