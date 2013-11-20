@@ -97,8 +97,8 @@ No questions yet. [Ask one!](http://wordpress.org/support/plugin/live-stream-bad
 ### 1.4 ###
 * TODO  
 ### 1.3 ###
-* Improvement: Added shortcode parameter to disable autoplay
-* New feature: Added templates for customizing widget output. Filters added: `lsb_status_widget_format`, `lsb_status_widget_item_format`, `lsb_status_widget_item_with_image_format`, `lsb_status_widget_no_content_format`. See `stream-status-widget.php` for more details.
+* Improvement: Added shortcode parameter to disable autoplay  
+* New feature: Added templates for customizing widget output. Filters added: `lsb_status_widget_format`, `lsb_status_widget_item_format`, `lsb_status_widget_item_with_image_format`, `lsb_status_widget_no_content_format`. See `stream-status-widget.php` for more details.  
 ### 1.2.2 ###
 * Bugfix: shortcode embed not working  
 ### 1.2 ###
