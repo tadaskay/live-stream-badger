@@ -9,20 +9,48 @@ include_once LSB_PLUGIN_BASE . 'store/class-stream-storage.php';
 include_once LSB_PLUGIN_BASE . 'domain/class-menu-item.php';
 
 /**
- * For usage in wp-cron.
- * Updates all menu items containing stream links with status from Twitch.tv API using settings configured in the Widget.
- * 'Watching now' count is stored in $nav_menu_item->description.
+ * Live Stream API data synchronizer. Invoked via hooks (Menu update and WP-Cron).
+ *
+ * <ol>
+ *      <li>Reads all Menu items that are used in Live Stream Badger widgets and collects URLs</li>
+ *      <li>Queries APIs</li>
+ *      <li>Updates {@link LSB_Stream_Storage}</li>
+ * </ol>
  */
 class LSB_API_Sync {
 
-	function updateAll() {
+    function __construct() {
+        // Hook sync:
+        add_action( 'lsb_update_all_stream_status', array( $this, 'sync' ) ); // Scheduled update
+        add_action( 'wp_update_nav_menu', array( $this, 'sync' ) );           // On menu update
+
+        // Create schedule for sync
+        add_filter( 'cron_schedules', array( $this, 'create_schedule' ) );
+    }
+
+    /**
+     * Create a 5 minute schedule for WP-Cron
+     *
+     * @param $schedules Original WP-Cron schedules
+     * @return array Updated WP-Cron schedules
+     */
+    function create_schedule( $schedules ) {
+        $schedules[ 'lsb_five_minutes' ] = array(
+            'interval' => 5 * MINUTE_IN_SECONDS,
+            'display' => __( 'Once every 5 minutes' )
+        );
+        return $schedules;
+    }
+
+    /**
+     * Synchronizes with Live Stream APIs
+     */
+    function sync() {
 		$all_widget_settings = $this->get_all_widget_configuration();
 
-		$all_urls               = array(); // URLs for querying
-		$all_widgets_menu_items = array(); // Menu items for saving later
-		$this->parse_configuration( $all_widget_settings, $all_widgets_menu_items, $all_urls );
+		$all_urls = $this->parse_configuration( $all_widget_settings );
 
-		if ( empty( $all_widgets_menu_items ) || empty( $all_urls ) )
+		if ( empty( $all_urls ) )
 			return;
 
 		$api_core = new LSB_API_Core();
@@ -41,23 +69,21 @@ class LSB_API_Sync {
 	private function get_all_widget_configuration() {
 		// Get stored widget options
 		// http://wordpress.stackexchange.com/questions/2091/using-widget-options-outside-the-widget
-		$w = new LSB_Stream_Status_Widget();
-
+        /** @var LSB_Stream_Status_Widget */
+        $w = new LSB_Stream_Status_Widget();
 		$all_widget_settings = $w->get_settings();
-		if ( empty( $all_widget_settings ) )
-			return array();
-
-		return $all_widget_settings;
+        return !empty($all_widget_settings) ? $all_widget_settings : array();
 	}
 
 	/**
-	 * Builds Menu item and URL array from all widget instances configuration.
+	 * Gathers Stream URLs from active widget instances.
 	 *
 	 * @param array $all_widget_settings    Wordpress Configuration for all Stream Status widget instances
-	 * @param array $all_widgets_menu_items Reference to an array to store parsed Menu items in
-	 * @param array $all_urls               Reference to an array to store parsed URLs in
-	 */
-	private function parse_configuration( $all_widget_settings, &$all_widgets_menu_items, &$all_urls ) {
+     *
+     * @return array Stream URLs
+     */
+	private function parse_configuration( $all_widget_settings ) {
+        $all_urls = array();
 
 		foreach ( $all_widget_settings as $ws ) {
 			$current_menu_id    = $ws['menu_id'];
@@ -76,11 +102,11 @@ class LSB_API_Sync {
 				$current_menu_item->original_url = $m->url;
 				$current_menu_item->title        = $m->title;
 
-				$all_widgets_menu_items[] = $current_menu_item;
 				$all_urls[]               = $m->url;
 			}
 		}
 
+        return $all_urls;
 	}
 
 	/**
