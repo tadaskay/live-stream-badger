@@ -95,13 +95,20 @@ No questions yet. [Ask one!](http://wordpress.org/support/plugin/live-stream-bad
 ## Changelog ##
 
 ### 1.4 ###
+
 * TODO  
+
 ### 1.3 ###
+
 * Improvement: Added shortcode parameter to disable autoplay  
 * New feature: Added templates for customizing widget output. Filters added: `lsb_status_widget_format`, `lsb_status_widget_item_format`, `lsb_status_widget_item_with_image_format`, `lsb_status_widget_no_content_format`. See `stream-status-widget.php` for more details.  
+
 ### 1.2.2 ###
+
 * Bugfix: shortcode embed not working  
+
 ### 1.2 ###
+
 * New Feature: Sort streams  
 * New Feature: Display screen capture or channel image  
 * Improvement: Plugin now uses transient storage (should work fast with caching plugins)  
@@ -109,21 +116,29 @@ No questions yet. [Ask one!](http://wordpress.org/support/plugin/live-stream-bad
 * Improvement: Added health check for HTTP transport (plugin will not activate if technical requirements are not met)  
 * Improvement: Changed required minimum WP version to 3.5  
 * Improvement: Major refactoring  
+
 ### 1.1.1-1.1.2 ###
+
 * Update of readme and usage guide under 'Installation'  
+
 ### 1.1 ###
+
 * Added livestream shortcode!  
 * Changed display from a table to a list  
 * Several bugfixes reported in forum  
 * Implemented pluggable API to support other providers than Twitch in the future  
-* Major refactoring
+* Major refactoring  
+
 ### 1.0.1 ###
+
 * Fixed shortcode support in Widget (link names)  
 * Fixed channel status sometimes not updating because of non-standard URL  
 * Switched to WP HTTP API  
-### 1.0 ###
-* Initial version
 
-### Upgrade Notice ###
+### 1.0 ###
+
+* Initial version  
+
+## Upgrade Notice ##
 
 Please read the changelog before upgrading.
