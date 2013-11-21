@@ -6,7 +6,6 @@ if ( !defined( 'ABSPATH' ) )
 include_once LSB_PLUGIN_BASE . 'apis/class-api-core.php';
 include_once LSB_PLUGIN_BASE . 'domain/class-stream-summary.php';
 include_once LSB_PLUGIN_BASE . 'store/class-stream-storage.php';
-include_once LSB_PLUGIN_BASE . 'domain/class-menu-item.php';
 
 /**
  * Live Stream API data synchronizer. Invoked via hooks (Menu update and WP-Cron).
@@ -82,32 +81,35 @@ class LSB_API_Sync {
      *
      * @return array Stream URLs
      */
-	private function parse_configuration( $all_widget_settings ) {
-        $all_urls = array();
+    private function parse_configuration( $all_widget_settings ) {
+        $urls = array();
 
-		foreach ( $all_widget_settings as $ws ) {
-			$current_menu_id    = $ws['menu_id'];
-			$current_menu_items = !empty( $current_menu_id ) ? wp_get_nav_menu_items( $current_menu_id ) : FALSE;
+        // If there are multiple widgets referencing the same menu, here's the marker for not gathering their links twice.
+        $processed_menus = array();
 
-			// There are no menu items in this menu (or menu does not exist), iterate
-			if ( !$current_menu_items )
-				continue;
+        foreach ( $all_widget_settings as $ws ) {
+            $menu_id = $ws[ 'menu_id' ];
 
-			// Build Menu item info for saving later and store URL for querying
-			foreach ( $current_menu_items as $m ) {
-				$current_menu_item = new LSB_Menu_Item();
+            // Pass it or mark it
+            if ( in_array( $menu_id, $processed_menus ) ) {
+                continue;
+            } else {
+                $processed_menus[] = $menu_id;
+            }
 
-				$current_menu_item->id           = $m->ID;
-				$current_menu_item->menu_id      = $current_menu_id;
-				$current_menu_item->original_url = $m->url;
-				$current_menu_item->title        = $m->title;
+            $menu_items = !empty( $menu_id ) ? wp_get_nav_menu_items( $menu_id ) : false;
 
-				$all_urls[]               = $m->url;
-			}
-		}
+            // There are no menu items in this menu (or menu does not exist), iterate
+            if ( !$menu_items )
+                continue;
 
-        return $all_urls;
-	}
+            foreach ( $menu_items as $menu_item ) {
+                $urls[] = $menu_item->url;
+            }
+        }
+
+        return $urls;
+    }
 
 	/**
 	 * Updates store for all $stream_summaries with information from API ($streams).
