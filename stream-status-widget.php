@@ -18,32 +18,39 @@ add_filter( 'lsb_stream_status_widget_text', 'do_shortcode' );
  */
 class LSB_Stream_Status_Widget extends WP_Widget {
 
+    /**
+     * Default settings. Also serves as a whitelist.
+     */
+    private static $defaults = array(
+        'title'               => '',
+        'menu_id'             => null,
+        'display_type'        => 'text',
+        'hide_offline'        => false,
+        'hide_offline_images' => false,
+        'sorting_strategy'    => 'by_watching_now'
+    );
+
 	function LSB_Stream_Status_Widget() {
 		parent::WP_Widget( FALSE, $name = 'LSB Stream Status' );
 	}
 
 	function widget( $args, $instance ) {
-		$display_type        = isset ( $instance['display_type'] ) ? $instance['display_type'] : 'text';
-		$hide_offline        = isset ( $instance['hide_offline'] ) ? $instance['hide_offline'] : FALSE;
-		$hide_offline_images = isset ( $instance['hide_offline_images'] ) ? $instance['hide_offline_images'] : FALSE;
-		$sorting_strategy    = isset ( $instance['sorting_strategy'] ) ? $instance['sorting_strategy'] : 'by_watching_now';
-
+	    extract( self::$defaults );
+	    extract( wp_parse_args( $instance, self::$defaults ), EXTR_IF_EXISTS );
+	    
 		// Get menu items for configured menu
-		$menu_items = !empty( $instance['menu_id'] ) ? wp_get_nav_menu_items( $instance['menu_id'] ) : FALSE;
+		$menu_items = !empty( $menu_id ) ? wp_get_nav_menu_items( $menu_id ) : false;
 
 		// No menu selected
 		if ( !$menu_items )
 			return;
 
-		$instance['title'] = apply_filters( 'widget_title', !empty( $instance['title'] ) ? $instance['title'] : '' );
-
 		echo $args['before_widget'];
 
-		if ( !empty( $instance['title'] ) ) {
-			echo $args['before_title'] . $instance['title'] . $args['after_title'];
+		$title = apply_filters( 'widget_title', $title );
+		if ( !empty( $title ) ) {
+			echo $args['before_title'] . $title . $args['after_title'];
 		}
-
-		$any_content_rendered = FALSE;
 
 		$core = new LSB_API_Core();
 
@@ -138,7 +145,7 @@ class LSB_Stream_Status_Widget extends WP_Widget {
 			$var_status_indicator = $is_on ? $stream->watching_now : 'Offline';
 
 			$item = '';
-			if ($show_image === TRUE) {
+			if ($show_image == true) {
 				$item = lsb_template_sprintf( $lsb_status_widget_item_with_image_format,
 					array(
 						'%%status_class%%'     => $var_status_class,
@@ -182,28 +189,14 @@ class LSB_Stream_Status_Widget extends WP_Widget {
 	} // widget()
 
 	function update( $new_instance, $old_instance ) {
-		$instance = $old_instance;
-
-		$instance['title']   = strip_tags( stripslashes( $new_instance['title'] ) );
-		$instance['menu_id'] = (int) $new_instance['menu_id'];
-
-		$instance['display_type'] = $new_instance['display_type'];
-
-		$instance['hide_offline']        = $new_instance['hide_offline'];
-		$instance['hide_offline_images'] = $new_instance['hide_offline_images'];
-
-		$instance['sorting_strategy'] = $new_instance['sorting_strategy'];
-
-		return $instance;
+	    $instance = wp_parse_args( $new_instance, self::$defaults );
+	    $instance['title'] = strip_tags( stripslashes( $instance['title'] ) );
+	    return $instance;
 	}
 
 	function form( $instance ) {
-		$title               = isset ( $instance['title'] ) ? $instance['title'] : '';
-		$menu_id             = isset ( $instance['menu_id'] ) ? $instance['menu_id'] : '';
-		$display_type        = isset ( $instance['display_type'] ) ? $instance['display_type'] : 'text';
-		$hide_offline        = isset ( $instance['hide_offline'] ) ? $instance['hide_offline'] : FALSE;
-		$hide_offline_images = isset ( $instance['hide_offline_images'] ) ? $instance['hide_offline_images'] : FALSE;
-		$sorting_strategy    = isset( $instance['sorting_strategy'] ) ? $instance['sorting_strategy'] : 'by_watching_now';
+	    extract( self::$defaults );
+	    extract( wp_parse_args( $instance, self::$defaults ), EXTR_IF_EXISTS );
 
 		$menus = get_terms( 'nav_menu', array( 'hide_empty' => FALSE ) );
 

@@ -39,6 +39,10 @@ class LSB_Stream_Summary {
 	function get_id() {
 		return $this->api_id . '_' . $this->channel_name;
 	}
+	
+	function to_string() {
+	    return json_encode($this);
+	}
 
 }
 

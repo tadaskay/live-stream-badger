@@ -66,6 +66,10 @@ class LSB_Stream {
 		$natural = ( $count_a > $count_b ) ? 1 : -1;
 		return ( -1 ) * $natural;
 	}
+	
+	function to_string() {
+	    return json_encode($this);
+	}
 
 }
 
