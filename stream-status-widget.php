@@ -35,6 +35,14 @@ class LSB_Stream_Status_Widget extends WP_Widget {
 	}
 
 	function widget( $args, $instance ) {
+        /**
+         * @var $title string
+         * @var $menu_id int
+         * @var $display_type string
+         * @var $hide_offline boolean
+         * @var $hide_offline_images boolean
+         * @var $sorting_strategy string
+         */
 	    extract( self::$defaults );
 	    extract( wp_parse_args( $instance, self::$defaults ), EXTR_IF_EXISTS );
 	    
@@ -195,6 +203,14 @@ class LSB_Stream_Status_Widget extends WP_Widget {
 	}
 
 	function form( $instance ) {
+        /**
+         * @var $title string
+         * @var $menu_id int
+         * @var $display_type string
+         * @var $hide_offline boolean
+         * @var $hide_offline_images boolean
+         * @var $sorting_strategy string
+         */
 	    extract( self::$defaults );
 	    extract( wp_parse_args( $instance, self::$defaults ), EXTR_IF_EXISTS );
 
