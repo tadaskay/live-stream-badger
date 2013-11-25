@@ -2,6 +2,7 @@
 
 include_once 'class-api.php';
 include_once 'class-api-twitch.php';
+include_once 'twitch-api-v3.php';
 
 /**
  * API Core provides access to all Live Stream APIs.
@@ -14,38 +15,41 @@ class LSB_API_Core {
 	 * Put all supported APIs here
 	 */
 	function __construct() {
-		$this->register_api( new LSB_API_Twitch() );
+		//$this->register_api( new LSB_API_Twitch() );
+		$this->register_api( new LSB_Twitch_API_V3() );
 	}
 
 	/**
-	 * Queries a list of URLs from mixed APIs.
-	 *
-	 * @param array $stream_urls List of valid LSB_Stream_Summary
-	 *
-	 * @return array List of LSB_Stream
+	 * Gets streams from all registered APIs
+	 * 
+	 * @param array $stream_summaries Validated stream summaries
+	 * 
+	 * @return array Streams
 	 */
-	function query( $stream_urls ) {
+	function get_streams( $stream_summaries = array() ) {
+        // Group URLs by API so we can call them separately
+        $summaries_by_api = array();
+        foreach ( $stream_summaries as $summary ) {
+            /** @var $summary LSB_Stream_Summary */
+            if ( !isset( $summaries_by_api[$summary->api_id] ) ) {
+                $summaries_by_api[$summary->api_id] = array();
+            }
+            $summaries_by_api[$summary->api_id][] = $summary;
+        }
+        
+        // Call each API
+        $results_all = array();
+        foreach ( $summaries_by_api as $api_identifier => $stream_summaries ) {
+            /** @var $current_api LSB_API */
+            $current_api              = $this->apis[$api_identifier];
 
-		// Group URLs by API so we can call them separately
-		$stream_urls_by_api = array();
-		foreach ( $stream_urls as $stream_url ) {
-			/** @var $stream_url LSB_Stream_Summary */
-			if ( !isset( $stream_urls_by_api[$stream_url->api_id] ) ) {
-				$stream_urls_by_api[$stream_url->api_id] = array();
-			}
-			$stream_urls_by_api[$stream_url->api_id][] = $stream_url;
-		}
+            $channels = array_map( function($ss) { return $ss->channel_name; }, $stream_summaries );
+            $results_from_current_api = $current_api->get_streams( $channels );
 
-		// Call each API
-		$results_all = array();
-		foreach ( $stream_urls_by_api as $api_identifier => $stream_urls ) {
-			/** @var $current_api LSB_API */
-			$current_api              = $this->apis[$api_identifier];
-			$results_from_current_api = $current_api->query( $stream_urls );
-			$results_all              = array_merge( $results_all, $results_from_current_api );
-		}
-
-		return $results_all;
+            $results_all              = array_merge( $results_all, $results_from_current_api );
+        }
+        
+        return $results_all;
 	}
 
 	/**
@@ -57,20 +61,20 @@ class LSB_API_Core {
 	 * @return array List of validated LSB_Stream_Summary
 	 */
 	function validate_urls( $urls ) {
-		$all_stream_urls = array();
+		$stream_summaries = array();
 
 		foreach ( $urls as $url ) {
 			foreach ( $this->apis as $api ) {
 				/** @var $api LSB_API */
-				$stream_url = $api->validate_url( $url );
-				if ( !empty( $stream_url ) ) {
-					$all_stream_urls[] = $stream_url;
+				$stream_summary = $api->validate_url( $url );
+				if ( !empty( $stream_summary ) ) {
+					$stream_summaries[] = $stream_summary;
 					break; // Skip to the next URL
 				}
 			}
 		}
 
-		return $all_stream_urls;
+		return $stream_summaries;
 	}
 
 	/**
@@ -83,5 +87,3 @@ class LSB_API_Core {
 	}
 
 }
-
-//eof

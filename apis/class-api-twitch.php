@@ -57,7 +57,7 @@ class LSB_API_Twitch extends LSB_API {
 
 			$url = $this->channel_to_url( $j_channel_name );
 
-			$stream_dto               = new LSB_Stream();
+			$stream_dto = new LSB_Stream();
 			$stream_dto->summary->channel_name = $j_channel_name;
 			$stream_dto->summary->url          = $url;
 			$stream_dto->watching_now = $j['channel_count'];
@@ -79,5 +79,3 @@ class LSB_API_Twitch extends LSB_API {
 	}
 
 }
-
-//eof

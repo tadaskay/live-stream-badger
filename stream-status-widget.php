@@ -1,5 +1,6 @@
 <?php
 
+include_once LSB_PLUGIN_BASE . 'scheduler/class-api-sync.php';
 include_once LSB_PLUGIN_BASE . 'apis/class-api-core.php';
 include_once LSB_PLUGIN_BASE . 'domain/class-stream.php';
 include_once LSB_PLUGIN_BASE . 'domain/class-stream-summary.php';
@@ -59,6 +60,9 @@ class LSB_Stream_Status_Widget extends WP_Widget {
 		if ( !empty( $title ) ) {
 			echo $args['before_title'] . $title . $args['after_title'];
 		}
+		
+// 		$sync = new LSB_API_Sync();
+// 		$sync->sync();
 
 		$core = new LSB_API_Core();
 
@@ -76,8 +80,8 @@ class LSB_Stream_Status_Widget extends WP_Widget {
 			$links[$stream_summary->get_id()] = $m;
 		}
 
-		$store   = new LSB_Stream_Storage();
-		$streams = $store->load();
+		$store   = new LSB_Stream_Storage(new LSB_API_Sync());
+		$streams = $store->get_streams();
 
 		$stream_sorter = new LSB_Stream_Sorter( $links );
 		if ( $sorting_strategy == 'by_status' ) {
@@ -280,5 +284,3 @@ class LSB_Stream_Status_Widget extends WP_Widget {
 	<?php
 	} // form()
 }
-
-//eof

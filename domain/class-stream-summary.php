@@ -32,12 +32,12 @@ class LSB_Stream_Summary {
 	public $channel_name;
 
 	/**
-	 * Unique identifier of the stream (API ID + channel name)
+	 * Unique identifier of the stream (API ID + channel), e.g.: 'twitch:beyondthesummit'
 	 *
 	 * @return string
 	 */
 	function get_id() {
-		return $this->api_id . '_' . $this->channel_name;
+		return $this->api_id . ':' . $this->channel_name;
 	}
 	
 	function to_string() {
@@ -45,5 +45,3 @@ class LSB_Stream_Summary {
 	}
 
 }
-
-//eof

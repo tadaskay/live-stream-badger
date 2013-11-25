@@ -7,35 +7,40 @@ include_once 'class-stream-summary.php';
  */
 class LSB_Stream {
 
-	/**
-	 * Summary information (URL, API ID, Channel name, etc.),
-	 * not tied to the stream statistics.
-	 *
+    /**
+	 * Summary information (URL, API ID, Channel name, etc.), not tied to the stream statistics.
 	 * @var LSB_Stream_Summary
 	 */
 	public $summary;
 
+    /**
+     * Is stream online?
+     * @var boolean
+     */
+    public $live = false;
+
 	/**
-	 * Count of people watching the channel at the moment.
-	 * -1 indicates that the stream is offline, 0 indicates the stream is online but no viewers.
-	 *
+	 * Amount of channel viewers at the moment, when $live is true. Otherwise undefined.
 	 * @var int
 	 */
 	public $watching_now = -1;
-
+	
 	/**
-	 * URL to the channel image
-	 *
+	 * Static channel image URL
 	 * @var string
 	 */
 	public $image_url = '';
 
+    /**
+     * Screen capture (live preview) image URL
+     * @var string
+     */
 	public $screen_cap_url = '';
 
 	function __construct() {
 		$this->summary = new LSB_Stream_Summary();
 	}
-
+	
 	/**
 	 * Compares two streams by 'Watching now' count, descending.
 	 * Offline < 0 < 1
@@ -72,5 +77,3 @@ class LSB_Stream {
 	}
 
 }
-
-//eof

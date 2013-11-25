@@ -25,9 +25,9 @@ class LSB_Admin_Settings {
 
             <div>
                 <h3>Diagnostics</h3>
-
-                <div style="font-family: Consolas, 'Courier New'; background: #ffffe0; border-radius: 5px;">
-                    <?php $this->diagnostics->render(); ?>
+                
+                <div style="background: lightyellow;">
+                    <pre><?php $this->diagnostics->render(); ?></pre>
                 </div>
             </div>
 

@@ -5,7 +5,6 @@ if ( !defined( 'ABSPATH' ) )
 
 include_once LSB_PLUGIN_BASE . 'apis/class-api-core.php';
 include_once LSB_PLUGIN_BASE . 'domain/class-stream-summary.php';
-include_once LSB_PLUGIN_BASE . 'store/class-stream-storage.php';
 
 /**
  * Live Stream API data synchronizer. Invoked via hooks (Menu update and WP-Cron).
@@ -20,31 +19,17 @@ class LSB_API_Sync {
 
     function __construct() {
         // Hook sync:
-        add_action( 'lsb_update_all_stream_status', array( $this, 'sync' ) ); // Scheduled update
-        add_action( 'wp_update_nav_menu', array( $this, 'sync' ) );           // On menu update
+        //add_action( 'lsb_update_all_stream_status', array( $this, 'sync' ) ); // Scheduled update
+        //add_action( 'wp_update_nav_menu', array( $this, 'sync' ) );           // On menu update
 
         // Create schedule for sync
-        add_filter( 'cron_schedules', array( $this, 'create_schedule' ) );
-    }
-
-    /**
-     * Create a 5 minute schedule for WP-Cron
-     *
-     * @param $schedules Original WP-Cron schedules
-     * @return array Updated WP-Cron schedules
-     */
-    function create_schedule( $schedules ) {
-        $schedules[ 'lsb_five_minutes' ] = array(
-            'interval' => 5 * MINUTE_IN_SECONDS,
-            'display' => __( 'Once every 5 minutes' )
-        );
-        return $schedules;
+        //dd_filter( 'cron_schedules', array( $this, 'create_schedule' ) );
     }
 
     /**
      * Synchronizes with Live Stream APIs
      */
-    function sync() {
+    function sync( $backup ) {
 		$all_widget_settings = $this->get_all_widget_configuration();
 
 		$all_urls = $this->parse_configuration( $all_widget_settings );
@@ -55,9 +40,10 @@ class LSB_API_Sync {
 		$api_core = new LSB_API_Core();
 
 		$stream_summaries = $api_core->validate_urls( $all_urls );
-		$streams          = $api_core->query( $stream_summaries );
-
-		$this->update_store( $stream_summaries, $streams );
+		$streams          = $api_core->get_streams( $stream_summaries );
+        
+        $new_data = $this->merge_update( $stream_summaries, $streams, $backup );
+        return $new_data;
 	}
 
 	/**
@@ -121,52 +107,25 @@ class LSB_API_Sync {
 	 * @param array $stream_summaries list of LSB_Stream_Summary to update information for
 	 * @param       $streams          array of LSB_Stream - information from API
 	 */
-	private function update_store( $stream_summaries, $streams ) {
-		$store        = new LSB_Stream_Storage();
-		$stored_infos = $store->load();
-
+	private function merge_update( $stream_summaries, $streams, $backup ) {
 		$merged_infos = array();
-
-		foreach ( $stream_summaries as $summary ) {
-			/** @var $summary LSB_Stream_Summary */
-			if ( isset( $merged_infos[$summary->get_id()] ) )
-				// Can occur if the same link is in multiple menus
-				continue;
-
-			/** @var $update LSB_Stream */
-			$update = NULL;
-			foreach ( $streams as $stream ) {
-				/** @var $stream LSB_Stream */
-				if ( $stream->summary->original_url == $summary->original_url ) {
-					$update = $stream;
-					break;
-				}
-			}
-
-			$stored = isset( $stored_infos[$summary->get_id()] ) ? $stored_infos[$summary->get_id()] : NULL;
-
-			if ( empty( $stored ) ) {
-				// A new menu item that is not in store yet
-				$stored          = new LSB_Stream();
-				$stored->summary = $summary;
-			}
-
-			if ( empty( $update ) ) {
-				// No update, set stream info to offline
-				$stored->watching_now = -1;
-			}
-			else {
-				// There is an update from API, copy data
-				$stored->watching_now = $update->watching_now;
-				$stored->image_url = $update->image_url;
-				$stored->screen_cap_url = $update->screen_cap_url;
-			}
-
-			$merged_infos[$summary->get_id()] = $stored;
+		
+		foreach ( $streams as $stream ) {
+            $merged_infos[ $stream->summary->get_id() ] = $stream;
 		}
+		
+		foreach ( $stream_summaries as $summary ) {
+		    // Skip streams that have been updated from API
+		    if ( isset( $merged_infos[ $summary->get_id() ] ) )
+		        continue;
+		        
+            $stream = new LSB_Stream();
+            $stream->summary = $summary;
 
-		$store->store( $merged_infos );
+            $merged_infos[ $summary->get_id() ] = $stream;
+		}
+		
+		return $merged_infos;
 	}
 
 }
-//eof
