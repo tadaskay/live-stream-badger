@@ -1,4 +1,5 @@
 <?php
+namespace livestreambadger;
 
 include_once LSB_PLUGIN_BASE . 'scheduler/class-api-sync.php';
 include_once LSB_PLUGIN_BASE . 'apis/class-api-core.php';
@@ -8,7 +9,9 @@ include_once LSB_PLUGIN_BASE . 'domain/class-stream-sorter.php';
 include_once LSB_PLUGIN_BASE . 'store/class-stream-storage.php';
 include_once LSB_PLUGIN_BASE . 'functions.php';
 
-add_action( 'widgets_init', create_function( '', 'return register_widget("LSB_Stream_Status_Widget");' ) );
+add_action( 'widgets_init', function() {
+    register_widget( 'livestreambadger\Stream_Status_Widget' );
+});
 add_filter( 'lsb_stream_status_widget_text', 'do_shortcode' );
 
 /**
@@ -17,7 +20,7 @@ add_filter( 'lsb_stream_status_widget_text', 'do_shortcode' );
  * Displays Live Streams list.
  * Uses a menu configured in Widget Options and nested Custom Links.
  */
-class LSB_Stream_Status_Widget extends WP_Widget {
+class Stream_Status_Widget extends \WP_Widget {
 
     /**
      * Default settings. Also serves as a whitelist.
@@ -31,9 +34,9 @@ class LSB_Stream_Status_Widget extends WP_Widget {
         'sorting_strategy'    => 'by_watching_now'
     );
 
-	function LSB_Stream_Status_Widget() {
-		parent::WP_Widget( FALSE, $name = 'LSB Stream Status' );
-	}
+    function __construct() {
+        parent::__construct( $id_base = 'lsb_stream_status_widget', $name = 'Live Stream Status');
+    }
 
 	function widget( $args, $instance ) {
         /**
@@ -61,9 +64,6 @@ class LSB_Stream_Status_Widget extends WP_Widget {
 			echo $args['before_title'] . $title . $args['after_title'];
 		}
 		
-// 		$sync = new LSB_API_Sync();
-// 		$sync->sync();
-
 		$core = new LSB_API_Core();
 
 		// Get only those with links

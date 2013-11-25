@@ -1,4 +1,5 @@
 <?php
+namespace livestreambadger;
 
 include LSB_PLUGIN_BASE . 'apis/twitch-api-v3.php';
 

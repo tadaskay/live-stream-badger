@@ -1,4 +1,5 @@
 <?php
+namespace livestreambadger;
 
 include_once LSB_PLUGIN_BASE . 'apis/class-api.php';
 include_once LSB_PLUGIN_BASE . 'domain/class-api-call-exception.php';

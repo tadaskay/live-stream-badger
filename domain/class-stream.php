@@ -1,4 +1,5 @@
 <?php
+namespace livestreambadger;
 
 include_once 'class-stream-summary.php';
 

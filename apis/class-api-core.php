@@ -1,4 +1,5 @@
 <?php
+namespace livestreambadger;
 
 include_once 'class-api.php';
 include_once 'class-api-twitch.php';

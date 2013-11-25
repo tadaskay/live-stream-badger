@@ -1,4 +1,5 @@
 <?php
+namespace livestreambadger;
 
 if ( !defined( 'ABSPATH' ) )
 	die();
@@ -54,8 +55,8 @@ class LSB_API_Sync {
 	private function get_all_widget_configuration() {
 		// Get stored widget options
 		// http://wordpress.stackexchange.com/questions/2091/using-widget-options-outside-the-widget
-        /** @var LSB_Stream_Status_Widget */
-        $w = new LSB_Stream_Status_Widget();
+        /** @var Stream_Status_Widget */
+        $w = new Stream_Status_Widget();
 		$all_widget_settings = $w->get_settings();
         return !empty($all_widget_settings) ? $all_widget_settings : array();
 	}

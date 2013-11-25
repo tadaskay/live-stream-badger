@@ -1,4 +1,5 @@
 <?php
+namespace livestreambadger;
 
 /**
  * Represents query for Twitch.tv API

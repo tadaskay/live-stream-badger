@@ -1,7 +1,7 @@
 === Live Stream Badger ===
 Contributors: tkrivickas
 Tags: twitch, live stream, stream status, widget, menu
-Requires at least: 3.5
+Requires at least: 3.6.1
 Tested up to: 3.7.1
 Stable tag: 1.3
 License: GPLv3
@@ -27,8 +27,8 @@ Works out-of-the-box, but you can customize it.
 * Support multiple livestream providers (e.g. Hashd.TV, Justin.TV, UStream.TV)
 
 = Requirements =
-* PHP 5.2 or later
-* WordPress 3.5 or later
+* PHP 5.3 or later
+* WordPress 3.6.1 or later
 
 = Have something to say? =
 [Suggest ideas, report issues or join development](http://wordpress.org/support/plugin/live-stream-badger)!

@@ -1,4 +1,5 @@
 <?php
+namespace livestreambadger;
 
 include_once LSB_PLUGIN_BASE . 'view/class-embedded-twitch-view.php';
 include_once LSB_PLUGIN_BASE . 'domain/class-stream-summary.php';

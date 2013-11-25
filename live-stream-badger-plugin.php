@@ -10,6 +10,7 @@
  License: GPLv3
  License URI: http://www.gnu.org/licenses/gpl-3.0.html
  */
+namespace livestreambadger;
 
 if ( !defined( 'LSB_PLUGIN_BASE' ) ) {
 	define( 'LSB_PLUGIN_BASE', plugin_dir_path( __FILE__ ) );
@@ -26,7 +27,7 @@ include_once LSB_PLUGIN_BASE . 'shortcode/class-embedded-stream.php';
 include_once LSB_PLUGIN_BASE . 'scheduler/class-api-sync.php';
 
 // Register styles
-add_action( 'wp_enqueue_scripts', 'lsb_register_styles' );
+add_action( 'wp_enqueue_scripts', 'livestreambadger\lsb_register_styles' );
 function lsb_register_styles() {
 	wp_register_style( 'lsb-style', plugins_url( 'style.css', __FILE__ ) );
 	wp_enqueue_style( 'lsb-style' );

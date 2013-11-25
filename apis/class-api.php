@@ -1,4 +1,5 @@
 <?php
+namespace livestreambadger;
 
 /**
  * An abstract LiveStream API, allowing to query information.

@@ -1,4 +1,5 @@
 <?php
+namespace livestreambadger;
 
 /**
  * Provides storage for Stream infos (from widgets)

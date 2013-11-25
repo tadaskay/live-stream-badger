@@ -1,4 +1,5 @@
 <?php
+namespace livestreambadger;
 
 class LSB_Stream_Summary {
 
