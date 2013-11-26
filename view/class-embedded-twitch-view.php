@@ -1,8 +1,5 @@
 <?php
 
-include_once 'class-view.php';
-include_once LSB_PLUGIN_BASE . 'domain/class-stream-summary.php';
-
 class LSB_Embedded_Twitch_View extends LSB_View {
 
 	function get_html( $args ) {

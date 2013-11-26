@@ -4,9 +4,6 @@ namespace livestreambadger;
 if ( !defined( 'ABSPATH' ) )
 	die();
 
-include_once LSB_PLUGIN_BASE . 'apis/class-api-core.php';
-include_once LSB_PLUGIN_BASE . 'domain/class-stream-summary.php';
-
 /**
  * Live Stream API data synchronizer. Invoked via hooks (Menu update and WP-Cron).
  *

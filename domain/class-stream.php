@@ -1,8 +1,6 @@
 <?php
 namespace livestreambadger;
 
-include_once 'class-stream-summary.php';
-
 /**
  * General Live stream information
  */

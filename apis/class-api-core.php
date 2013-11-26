@@ -1,10 +1,6 @@
 <?php
 namespace livestreambadger;
 
-include_once 'class-api.php';
-include_once 'class-api-twitch.php';
-include_once 'twitch-api-v3.php';
-
 /**
  * API Core provides access to all Live Stream APIs.
  */

@@ -16,15 +16,7 @@ if ( !defined( 'LSB_PLUGIN_BASE' ) ) {
 	define( 'LSB_PLUGIN_BASE', plugin_dir_path( __FILE__ ) );
 }
 
-// Includes: admin
-include_once LSB_PLUGIN_BASE . 'admin/admin-settings.php';
-include_once LSB_PLUGIN_BASE . 'admin/diagnostics.php';
-include_once LSB_PLUGIN_BASE . 'admin/installer.php';
-// Includes: other
-include_once LSB_PLUGIN_BASE . 'apis/class-api-core.php';
-include_once LSB_PLUGIN_BASE . 'stream-status-widget.php';
-include_once LSB_PLUGIN_BASE . 'shortcode/class-embedded-stream.php';
-include_once LSB_PLUGIN_BASE . 'scheduler/class-api-sync.php';
+require LSB_PLUGIN_BASE . 'autoloader.php';
 
 // Register styles
 add_action( 'wp_enqueue_scripts', 'livestreambadger\lsb_register_styles' );
@@ -32,6 +24,12 @@ function lsb_register_styles() {
 	wp_register_style( 'lsb-style', plugins_url( 'style.css', __FILE__ ) );
 	wp_enqueue_style( 'lsb-style' );
 }
+
+// Register widget
+add_action( 'widgets_init', function() {
+    register_widget( 'livestreambadger\Stream_Status_Widget' );
+});
+add_filter( 'lsb_stream_status_widget_text', 'do_shortcode' );
 
 // Register shortcode
 $embedded_stream_sc = new LSB_Embedded_Stream();

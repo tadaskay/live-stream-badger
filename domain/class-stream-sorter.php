@@ -1,9 +1,6 @@
 <?php
 namespace livestreambadger;
 
-include_once 'class-stream.php';
-include_once 'class-stream-summary.php';
-
 /**
  * Sorts a list of Streams
  *

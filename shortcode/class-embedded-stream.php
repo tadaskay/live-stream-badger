@@ -1,9 +1,6 @@
 <?php
 namespace livestreambadger;
 
-include_once LSB_PLUGIN_BASE . 'view/class-embedded-twitch-view.php';
-include_once LSB_PLUGIN_BASE . 'domain/class-stream-summary.php';
-
 class LSB_Embedded_Stream {
 
 	function do_shortcode( $attrs ) {

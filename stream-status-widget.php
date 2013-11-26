@@ -1,18 +1,7 @@
 <?php
 namespace livestreambadger;
 
-include_once LSB_PLUGIN_BASE . 'scheduler/class-api-sync.php';
-include_once LSB_PLUGIN_BASE . 'apis/class-api-core.php';
-include_once LSB_PLUGIN_BASE . 'domain/class-stream.php';
-include_once LSB_PLUGIN_BASE . 'domain/class-stream-summary.php';
-include_once LSB_PLUGIN_BASE . 'domain/class-stream-sorter.php';
-include_once LSB_PLUGIN_BASE . 'store/class-stream-storage.php';
 include_once LSB_PLUGIN_BASE . 'functions.php';
-
-add_action( 'widgets_init', function() {
-    register_widget( 'livestreambadger\Stream_Status_Widget' );
-});
-add_filter( 'lsb_stream_status_widget_text', 'do_shortcode' );
 
 /**
  * Class Live Stream Widget.
