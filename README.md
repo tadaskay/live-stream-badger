@@ -1,8 +1,8 @@
 # Live Stream Badger #
 **Contributors:** tkrivickas  
 **Tags:** twitch, live stream, stream status, widget, menu  
-**Requires at least:** 3.6.1  
-**Tested up to:** 3.7.1  
+**Requires at least:** 3.7  
+**Tested up to:** 3.8  
 **Stable tag:** 1.3  
 **License:** GPLv3  
 **License URI:** http://www.gnu.org/licenses/gpl-3.0.html  
@@ -28,7 +28,7 @@ Works out-of-the-box, but you can customize it.
 
 ### Requirements ###
 * PHP 5.3 or later
-* WordPress 3.6.1 or later
+* WordPress 3.7 or later
 
 ### Have something to say? ###
 [Suggest ideas, report issues or join development](http://wordpress.org/support/plugin/live-stream-badger)!
@@ -96,12 +96,18 @@ No questions yet. [Ask one!](http://wordpress.org/support/plugin/live-stream-bad
 
 ### 1.4 ###
 
-* TODO  
+* Bugfix: Fixed stream list not updating in certain configurations (WP Cron has been replaced by Transients API)  
+* Improvement: Moved development to [GitHub](https://github.com/tkrivickas/live-stream-badger), everyone is welcome to contribute  
+* Improvement: Switched from Justin.tv to Twitch API (version 3, bleeding edge)  
+* Improvement: Upgraded to PHP version 5.3+ (cleaner code thanks to namespaces, autoloader)  
+* Improvement: Updated minimum requirements for WordPress (3.7+, though 3.8 is highly recommended) as well as for PHP (5.3+)  
+* Improvement: Major code refactoring (hopefully, for the good)
+* Improvement: Moved templates and filters for extensions to a separate folder `extend`  
 
 ### 1.3 ###
 
 * Improvement: Added shortcode parameter to disable autoplay  
-* New feature: Added templates for customizing widget output. Filters added: `lsb_status_widget_format`, `lsb_status_widget_item_format`, `lsb_status_widget_item_with_image_format`, `lsb_status_widget_no_content_format`. See `stream-status-widget.php` for more details.  
+* New feature: Added templates for customizing widget output. Filters added: `lsb_status_widget_format`, `lsb_status_widget_item_format`, `lsb_status_widget_item_with_image_format`, `lsb_status_widget_no_content_format`. See `extend\class-templates.php` for more details.  
 
 ### 1.2.2 ###
 

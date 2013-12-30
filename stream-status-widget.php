@@ -1,8 +1,6 @@
 <?php
 namespace livestreambadger;
 
-include_once LSB_PLUGIN_BASE . 'functions.php';
-
 /**
  * Class Live Stream Widget.
  *
@@ -84,37 +82,13 @@ class Stream_Status_Widget extends \WP_Widget {
 		}
 
         // Display format templates
+        
+        $templates = new Templates();
 
-		$lsb_status_widget_format = 
-			'<div class="lsb-status-widget-holder"><ul>%%items%%</ul></div>';
-		$lsb_status_widget_format = apply_filters( 'lsb_status_widget_format', $lsb_status_widget_format );
-
-		$lsb_status_widget_item_format = 
-			'<li class="lsb-status-widget-list-item %%status_class%%">'.
-			'  <span class="lsb-status-widget-title">'.
-			'    <a href="%%url%%" target="_blank">%%title%%</a>'.
-			'  </span>'.
-			'  <span class="lsb-status-widget-indicator %%status_class%%">%%status_indicator%%</span>'.
-			'</li>';
-		$lsb_status_widget_item_format = apply_filters( 'lsb_status_widget_item_format', $lsb_status_widget_item_format );
-
-		$lsb_status_widget_item_with_image_format = 
-			'<li class="lsb-status-widget-list-item %%status_class%%">'.
-			'  <span class="lsb-status-widget-title">'.
-			'    <a href="%%url%%" target="_blank">%%title%%</a>'.
-			'  </span>'.
-			'  <span class="lsb-status-widget-indicator %%status_class%%">%%status_indicator%%</span>'.
-			'  <span class="lsb-status-widget-image">'.
-			'    <a href="%%url%%" target="_blank">'.
-			'      <img src="%%image_src%%">'.
-			'    </a>'.
-			'  </span>'.
-			'</li>';
-		$lsb_status_widget_item_with_image_format = apply_filters( 'lsb_status_widget_item_with_image_format', $lsb_status_widget_item_with_image_format );
-
-		$lsb_status_widget_no_content_format =
-			'<div class="lsb-status-widget-holder"><span class="lsb-status-widget-info">%%message%%</span></div>';
-		$lsb_status_widget_no_content_format = apply_filters( 'lsb_status_widget_no_content_format', $lsb_status_widget_no_content_format );
+		$lsb_status_widget_format = $templates->status_widget();
+		$lsb_status_widget_item_format = $templates->status_widget_item();
+		$lsb_status_widget_item_with_image_format = $templates->status_widget_item_with_image();
+		$lsb_status_widget_no_content_format = $templates->status_widget_no_content();
 
 		$container = '';
 		$items = '';
@@ -147,7 +121,7 @@ class Stream_Status_Widget extends \WP_Widget {
 
 			$item = '';
 			if ($show_image == true) {
-				$item = lsb_template_sprintf( $lsb_status_widget_item_with_image_format,
+				$item = $templates->printt( $lsb_status_widget_item_with_image_format,
 					array(
 						'%%status_class%%'     => $var_status_class,
 						'%%url%%'              => $var_url,
@@ -157,7 +131,7 @@ class Stream_Status_Widget extends \WP_Widget {
 					)
 				);
 			} else {
-				$item = lsb_template_sprintf( $lsb_status_widget_item_format,
+				$item = $templates->printt( $lsb_status_widget_item_format,
 					array(
 						'%%status_class%%'     => $var_status_class,
 						'%%url%%'              => $var_url,
@@ -171,13 +145,13 @@ class Stream_Status_Widget extends \WP_Widget {
 		}
 
 		if ( !empty( $items ) ) {
-			$container = lsb_template_sprintf( $lsb_status_widget_format,
+			$container = $templates->printt( $lsb_status_widget_format,
 				array(
 					'%%items%%' => $items
 				)
 			);
 		} else {
-			$container = lsb_template_sprintf( $lsb_status_widget_no_content_format, 
+			$container = $templates->printt( $lsb_status_widget_no_content_format, 
 				array(
 					'%%message%%' => __( 'No streams available' )
 				)

@@ -28,6 +28,8 @@ class Autoloader {
         // view
         'LSB_Embedded_Twitch_View'  => 'view/class-embedded-twitch-view.php',
         'LSB_View'                  => 'view/class-view.php',
+        // extend
+        'Templates'                 => 'extend/class-templates.php',
         // widget
         'Stream_Status_Widget'      => 'stream-status-widget.php'
     );

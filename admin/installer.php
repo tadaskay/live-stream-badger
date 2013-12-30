@@ -31,8 +31,8 @@ class LSB_Installer {
 
     function health_check() {
         global $wp_version;
-        if ( version_compare( $wp_version, '3.6', '<' ) ) {
-            $antique_wp_version_message = 'Live Stream Badger requires WordPress 3.6 or newer. <a href="http://codex.wordpress.org/Upgrading_WordPress">Please update.</a>';
+        if ( version_compare( $wp_version, '3.7', '<' ) ) {
+            $antique_wp_version_message = 'Live Stream Badger requires WordPress 3.7 or newer. <a href="http://codex.wordpress.org/Upgrading_WordPress">Please update.</a>';
             exit( $antique_wp_version_message );
         }
         $php_version = phpversion();
