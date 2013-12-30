@@ -41,6 +41,4 @@ $installer = new LSB_Installer();
 register_activation_hook( __FILE__, array( $installer, 'install' ) );
 register_deactivation_hook( __FILE__, array( $installer, 'uninstall' ) );
 
-new LSB_Admin_Settings(
-    new LSB_Diagnostics()
-);
+new LSB_Admin_Settings();

@@ -3,13 +3,7 @@ namespace livestreambadger;
 
 class LSB_Admin_Settings {
 
-    /**
-     * @var LSB_Diagnostics
-     */
-    private $diagnostics;
-
-    function __construct( $diagnostics ) {
-        $this->diagnostics = $diagnostics;
+    function __construct( ) {
         add_action( 'admin_menu', array( $this, 'register' ) );
     }
 
@@ -26,10 +20,6 @@ class LSB_Admin_Settings {
 
             <div>
                 <h3>Diagnostics</h3>
-                
-                <div style="background: lightyellow;">
-                    <pre><?php $this->diagnostics->render(); ?></pre>
-                </div>
             </div>
 
         </div>
