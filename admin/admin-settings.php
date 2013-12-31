@@ -60,6 +60,18 @@ class LSB_Admin_Settings {
                     );
                     break;
                     
+                case 'checkbox':
+                    $section = $value['section'];
+                    add_settings_field( $key, $value['title'], array( &$this, 'checkbox_element_cb'), $default_settings[$section]['group'], $section, 
+                        array(
+                            'id' => $key,
+                            'group' => $default_settings[$section]['group'],
+                            'description' => $value['description'],
+                            'default' => $value['default']
+                        )
+                    );
+                    break;
+                    
             }
         }
 
@@ -95,6 +107,21 @@ class LSB_Admin_Settings {
         ?>
         </select>
         
+        <?php
+        if ( isset( $args['description'] ) ) :
+            ?>
+            <p class="description"><?php echo $args['description']; ?></p>
+            <?php
+        endif;
+    }
+    
+    function checkbox_element_cb( $args ) {
+        $id = $args['id'];
+        $group = $args['group'];
+        $value = Settings::read_settings( $id );
+
+        ?>
+        <input name="<?php echo $group . '[' . $id . ']'; ?>" type="checkbox" id="<?php echo $id; ?>" value="true" <?php echo $value ? 'checked="checked"' : ''; ?>>
         <?php
         if ( isset( $args['description'] ) ) :
             ?>

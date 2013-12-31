@@ -25,7 +25,9 @@ if ( !defined( 'LSB_PLUGIN_VERSION' ) ) {
 require LSB_PLUGIN_BASE . 'autoloader.php';
 
 // Register styles
-add_action( 'wp_enqueue_scripts', 'livestreambadger\lsb_register_styles' );
+if ( Settings::read_settings( 'disable_css' ) == false ) {
+    add_action( 'wp_enqueue_scripts', 'livestreambadger\lsb_register_styles' );
+}
 function lsb_register_styles() {
 	wp_register_style( 'lsb-style', plugins_url( 'style.css', __FILE__ ) );
 	wp_enqueue_style( 'lsb-style' );

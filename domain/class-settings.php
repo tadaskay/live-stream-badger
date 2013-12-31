@@ -11,7 +11,7 @@ class Settings {
         $settings = array(
             'general' => array (
                 'type' => 'section',
-                'title' => 'General Settings',
+                'title' => 'General',
                 'group' => WP_Options::OPTIONS_GROUP
             ),
                 'cache_time' => array (
@@ -28,6 +28,18 @@ class Settings {
                         '10 minutes' => 600
                     ),
                     'section' => 'general'
+                ),
+            'appearance' => array (
+                'type' => 'section',
+                'title' => 'Appearance',
+                'group' => WP_Options::OPTIONS_GROUP
+            ),
+                'disable_css' => array(
+                    'type' => 'checkbox',
+                    'title' => 'Disable plugin stylesheet',
+                    'description' => 'The bundled stylesheet is really minimal and provides compatibility with most themes.<br>However, you can disable it completely if you want to style things by yourself in the theme. (Default: unchecked)',
+                    'default' => false,
+                    'section' => 'appearance'
                 )
         );
         return $settings;
