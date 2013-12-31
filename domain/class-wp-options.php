@@ -7,6 +7,8 @@ namespace livestreambadger;
  */
 class WP_Options {
     
+    const PLUGIN_VERSION    = 'live-stream-badger:version';
+
     // Stream storage
     const STREAMS_TRANSIENT = 'live-stream-badger:streams';
 	const STREAMS_BACKUP    = 'live-stream-badger:streams-backup';

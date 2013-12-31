@@ -18,6 +18,9 @@ if ( !defined( 'LSB_PLUGIN_BASE' ) ) {
 if ( !defined( 'LSB_PLUGIN_BASENAME' ) ) {
     define( 'LSB_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
 }
+if ( !defined( 'LSB_PLUGIN_VERSION' ) ) {
+    define( 'LSB_PLUGIN_VERSION', '1.4');
+}
 
 require LSB_PLUGIN_BASE . 'autoloader.php';
 
