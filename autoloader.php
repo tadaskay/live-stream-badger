@@ -16,9 +16,11 @@ class Autoloader {
         'LSB_Twitch_API_V3'         => 'apis/twitch-api-v3.php',
         // domain
         'LSB_API_Call_Exception'    => 'domain/class-api-call-exception.php',
+        'Settings'                  => 'domain/class-settings.php',
         'LSB_Stream_Sorter'         => 'domain/class-stream-sorter.php',
         'LSB_Stream_Summary'        => 'domain/class-stream-summary.php',
         'LSB_Stream'                => 'domain/class-stream.php',
+        'WP_Options'                => 'domain/class-wp-options.php',
         // scheduler
         'LSB_API_Sync'              => 'scheduler/class-api-sync.php',
         // shortcode

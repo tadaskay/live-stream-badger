@@ -15,6 +15,9 @@ namespace livestreambadger;
 if ( !defined( 'LSB_PLUGIN_BASE' ) ) {
 	define( 'LSB_PLUGIN_BASE', plugin_dir_path( __FILE__ ) );
 }
+if ( !defined( 'LSB_PLUGIN_BASENAME' ) ) {
+    define( 'LSB_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
+}
 
 require LSB_PLUGIN_BASE . 'autoloader.php';
 
@@ -35,10 +38,8 @@ add_filter( 'lsb_stream_status_widget_text', 'do_shortcode' );
 $embedded_stream_sc = new LSB_Embedded_Stream();
 add_shortcode( 'livestream', array( $embedded_stream_sc, 'do_shortcode' ) );
 
-new LSB_API_Sync();
-
 $installer = new LSB_Installer();
 register_activation_hook( __FILE__, array( $installer, 'install' ) );
 register_deactivation_hook( __FILE__, array( $installer, 'uninstall' ) );
 
-new LSB_Admin_Settings();
+new LSB_Admin_Settings( new LSB_Stream_Storage( new LSB_API_Sync() ) );

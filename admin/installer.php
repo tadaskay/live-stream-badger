@@ -10,8 +10,8 @@ class LSB_Installer {
     function install() {
         $this->health_check();
 
-        delete_option('live-stream-badger:streams-backup');
-        delete_transient('live-stream-badger:streams');
+        delete_option( WP_Options::STREAMS_BACKUP );
+        delete_transient( WP_Options::STREAMS_TRANSIENT );
 
         // cleanup legacy options <= 1.3
         wp_clear_scheduled_hook( 'lsb_update_all_stream_status' );
@@ -20,8 +20,8 @@ class LSB_Installer {
     }
 
     function uninstall() {
-        delete_option('live-stream-badger:streams-backup');
-        delete_transient('live-stream-badger:streams');
+        delete_option( WP_Options::STREAMS_BACKUP );
+        delete_transient( WP_Options::STREAMS_TRANSIENT );
 
         // cleanup legacy options <= 1.3
         wp_clear_scheduled_hook( 'lsb_update_all_stream_status' );

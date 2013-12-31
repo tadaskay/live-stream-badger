@@ -96,6 +96,7 @@ No questions yet. [Ask one!](http://wordpress.org/support/plugin/live-stream-bad
 
 ### 1.4 ###
 
+* New Feature: Adjustable data cache time in plugin's settings  
 * Bugfix: Fixed stream list not updating in certain configurations (WP Cron has been replaced by Transients API)  
 * Improvement: Moved development to [GitHub](https://github.com/tkrivickas/live-stream-badger), everyone is welcome to contribute  
 * Improvement: Switched from Justin.tv to Twitch API (version 3, bleeding edge)  
