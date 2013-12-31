@@ -29,11 +29,6 @@ class LSB_Installer {
     function uninstall() {
         delete_option( WP_Options::STREAMS_BACKUP );
         delete_transient( WP_Options::STREAMS_TRANSIENT );
-
-        // cleanup legacy options <= 1.3
-        wp_clear_scheduled_hook( 'lsb_update_all_stream_status' );
-        delete_option('lsb-stream-storage');
-        delete_transient('lsb-stream-storage');
     }
 
     function health_check() {
