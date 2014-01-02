@@ -3,7 +3,7 @@ Contributors: tkrivickas
 Tags: twitch, live stream, stream status, widget, menu
 Requires at least: 3.7
 Tested up to: 3.8
-Stable tag: 1.3
+Stable tag: 1.4
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
