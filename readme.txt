@@ -48,8 +48,6 @@ Works out-of-the-box, but you can customize it.
 5. Place 'LSB Stream Status' widget on the sidebar
 6. In widget configuration, select the menu you created in Step (3) and save
 7. Go to your website and you should see the livestream link in a widget
-8. Wait for about 5 minutes (stream status is updating) and refresh the page
-9. You should see a livestream link and its status (how many viewers are watching or 'Offline')
 
 = 'Stream status' widget CSS classes =
 Use these in your own stylesheet to customize display of the widget.
