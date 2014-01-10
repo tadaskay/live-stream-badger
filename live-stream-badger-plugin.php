@@ -23,20 +23,31 @@ if ( !defined( 'LSB_PLUGIN_VERSION' ) ) {
 
 register_activation_hook( __FILE__, 'lsb_health_check' );
 function lsb_health_check() {
-    lsbdebug('Running health check in installer');
+    $errors = array();
+
     global $wp_version;
     if ( version_compare( $wp_version, '3.7', '<' ) ) {
-        $antique_wp_version_message = 'Live Stream Badger requires WordPress 3.7 or newer. <a href="http://codex.wordpress.org/Upgrading_WordPress">Please update.</a>';
-        exit( $antique_wp_version_message );
+        $errors[] = sprintf('<p>Live Stream Badger requires WordPress 3.7+. Your version: <span style="color:red">%s</span>.', $wp_version);
     }
     $php_version = phpversion();
     if ( version_compare( $php_version, '5.3', '<' ) ) {
-        $antique_php_version_message = 'Live Stream Badger requires PHP 5.3 or newer. Please inquiry your hosting provider for an upgrade.';
-        exit ( $antique_php_version_message );
+        $errors[] = sprintf('<p>Live Stream Badger requires PHP 5.3+. Your version: <span style="color:red">%s</span>.', $php_version);
+    }
+    $ssl_loaded = extension_loaded( 'openssl' ) && function_exists( 'openssl_x509_parse' );
+    if ( !$ssl_loaded ) {
+        $errors[] = sprintf('<p>Live Stream Badger requires PHP extension openssl.</p>');
     }
     if ( !wp_http_supports() ) {
-        $no_transport_message = 'No HTTP transport (curl, streams, fsockopen) is available. Please inquiry your hosting provider for an upgrade.';
-        exit ( $no_transport_message );
+        $errors[] = sprintf('<p>Live Stream Badger requires HTTP transport (curl or streams).</p>');
+    }
+
+    if ( !empty( $errors ) ) {
+        echo '<pre>';
+        foreach ( $errors as $e ) {
+            echo $e;
+        }
+        echo '</pre>';
+        exit();
     }
 }
 
