@@ -8,8 +8,6 @@ class LSB_Installer {
     }
 
     function install() {
-        $this->health_check();
-
         delete_option( WP_Options::STREAMS_BACKUP );
         delete_transient( WP_Options::STREAMS_TRANSIENT );
 
@@ -31,20 +29,4 @@ class LSB_Installer {
         delete_transient( WP_Options::STREAMS_TRANSIENT );
     }
 
-    function health_check() {
-        global $wp_version;
-        if ( version_compare( $wp_version, '3.7', '<' ) ) {
-            $antique_wp_version_message = 'Live Stream Badger requires WordPress 3.7 or newer. <a href="http://codex.wordpress.org/Upgrading_WordPress">Please update.</a>';
-            exit( $antique_wp_version_message );
-        }
-        $php_version = phpversion();
-        if ( version_compare( $php_version, '5.3', '<' ) ) {
-            $antique_php_version_message = 'Live Stream Badger requires PHP 5.3 or newer. Please inquiry your hosting provider for an upgrade.';
-            exit ( $antique_php_version_message );
-        }
-        if ( !wp_http_supports() ) {
-            $no_transport_message = 'No HTTP transport (curl, streams, fsockopen) is available. Please inquiry your hosting provider for an upgrade.';
-            exit ( $no_transport_message );
-        }
-    }
 }
