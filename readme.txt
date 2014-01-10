@@ -3,7 +3,7 @@ Contributors: tkrivickas
 Tags: twitch, live stream, stream status, widget, menu
 Requires at least: 3.7
 Tested up to: 3.8
-Stable tag: 1.4
+Stable tag: 1.4.1
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -27,8 +27,8 @@ Works out-of-the-box, but you can customize it.
 * Support multiple livestream providers (e.g. Hashd.TV, Justin.TV, UStream.TV)
 
 = Requirements =
-* PHP 5.3 or later
-* WordPress 3.6.1 or later
+* PHP 5.3+
+* WordPress 3.7+
 
 = Have something to say? =
 [Suggest ideas, report issues or join development](http://wordpress.org/support/plugin/live-stream-badger)!
@@ -93,7 +93,8 @@ No questions yet. [Ask one!](http://wordpress.org/support/plugin/live-stream-bad
 == Changelog ==
 
 = 1.4.1 =
-* Bugfix: Embedded stream throwing fatal error  
+* Bugfix: Embedded stream throwing fatal error
+* Improvement: Tweaked health check upon activation (should show compatibility issues if any)
 = 1.4 =
 * New Feature: Added configurable plugin's settings
 * Bugfix: stream list not updating in certain configurations (WP Cron has been replaced by Transients API)

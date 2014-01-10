@@ -3,7 +3,7 @@
  Plugin Name: Live Stream Badger
  Plugin URI: http://wordpress.org/extend/plugins/live-stream-badger/
  Description: Display status of Twitch.tv live streams
- Version: 1.4.1-dev
+ Version: 1.4.1
  Author: Tadas Krivickas
  Author URI: http://profiles.wordpress.org/tkrivickas
  Author email: tadas.krivickas@gmail.com
@@ -18,7 +18,7 @@ if ( !defined( 'LSB_PLUGIN_BASENAME' ) ) {
     define( 'LSB_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
 }
 if ( !defined( 'LSB_PLUGIN_VERSION' ) ) {
-    define( 'LSB_PLUGIN_VERSION', '1.4');
+    define( 'LSB_PLUGIN_VERSION', '1.4.1');
 }
 
 register_activation_hook( __FILE__, 'lsb_health_check' );
