@@ -24,7 +24,7 @@ class LSB_Twitch_API_V3 extends LSB_API {
         $accept = 'application/vnd.twitchtv.' . self::API_VERSION . '+json';
         $response = wp_remote_get( $url, array( 'headers' => array( 'Accept' => $accept ) ) );
         if ( is_wp_error( $response ) ) {
-            throw new LSB_API_Call_Exception('Failed to call Twitch API');
+            throw new LSB_API_Call_Exception( $response->get_error_message() );
         }
         $body = wp_remote_retrieve_body( $response );
         $result = json_decode( $body );

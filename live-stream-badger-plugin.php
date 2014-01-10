@@ -10,7 +10,6 @@
  License: GPLv3
  License URI: http://www.gnu.org/licenses/gpl-3.0.html
  */
-namespace livestreambadger;
 
 if ( !defined( 'LSB_PLUGIN_BASE' ) ) {
 	define( 'LSB_PLUGIN_BASE', plugin_dir_path( __FILE__ ) );
@@ -25,8 +24,8 @@ if ( !defined( 'LSB_PLUGIN_VERSION' ) ) {
 require LSB_PLUGIN_BASE . 'autoloader.php';
 
 // Register styles
-if ( Settings::read_settings( 'disable_css' ) == false ) {
-    add_action( 'wp_enqueue_scripts', 'livestreambadger\lsb_register_styles' );
+if ( livestreambadger\Settings::read_settings( 'disable_css' ) == false ) {
+    add_action( 'wp_enqueue_scripts', 'lsb_register_styles' );
 }
 function lsb_register_styles() {
 	wp_register_style( 'lsb-style', plugins_url( 'style.css', __FILE__ ) );
@@ -40,11 +39,25 @@ add_action( 'widgets_init', function() {
 add_filter( 'lsb_stream_status_widget_text', 'do_shortcode' );
 
 // Register shortcode
-$embedded_stream_sc = new LSB_Embedded_Stream();
+$embedded_stream_sc = new livestreambadger\LSB_Embedded_Stream();
 add_shortcode( 'livestream', array( $embedded_stream_sc, 'do_shortcode' ) );
 
-$installer = new LSB_Installer();
+$installer = new livestreambadger\LSB_Installer();
 register_activation_hook( __FILE__, array( $installer, 'install' ) );
 register_deactivation_hook( __FILE__, array( $installer, 'uninstall' ) );
 
-new LSB_Admin_Settings( new LSB_Stream_Storage( new LSB_API_Sync() ) );
+new livestreambadger\LSB_Admin_Settings( 
+    new livestreambadger\LSB_Stream_Storage( 
+        new livestreambadger\LSB_API_Sync() 
+    ) 
+);
+
+function lsbdebug( $what ) {
+    if ( defined( 'WP_DEBUG' ) && WP_DEBUG === true ) {
+        if ( is_array( $what ) ) {
+            error_log( print_r( $what, true) );
+        } else {
+            error_log( $what );
+        }
+    }
+}

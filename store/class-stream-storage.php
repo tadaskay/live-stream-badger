@@ -21,7 +21,6 @@ class LSB_Stream_Storage {
 	    if ( $streams === false ) {
 	        $backup = get_option( WP_Options::STREAMS_BACKUP, array() ); 
 	        try {
-	            error_log('doing sync');
 	            $streams = $this->sync->sync( $backup );
 	            $cache_time_setting = Settings::read_settings( 'cache_time' );
 	            if ( $cache_time_setting != 0 ) {
@@ -29,6 +28,7 @@ class LSB_Stream_Storage {
 	            }
 	            update_option( WP_Options::STREAMS_BACKUP, $streams);
 	        } catch (LSB_API_Call_Exception $api_call_ex) {
+	        	lsbdebug( $api_call_ex );
 	            $streams = $backup;
 	        }
 	    }
