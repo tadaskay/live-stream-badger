@@ -52,36 +52,15 @@ function lsbdebug( $what ) {
 
 $can_run = version_compare( phpversion(), '5.3', '>=' );
 if ( !$can_run ) {
-    __halt_compiler();
+    return 0;
 }
 
 require LSB_PLUGIN_BASE . 'autoloader.php';
 
-// Register styles
-if ( livestreambadger\Settings::read_settings( 'disable_css' ) == false ) {
-    add_action( 'wp_enqueue_scripts', 'lsb_register_styles' );
-}
-function lsb_register_styles() {
-	wp_register_style( 'lsb-style', plugins_url( 'style.css', __FILE__ ) );
-	wp_enqueue_style( 'lsb-style' );
-}
+require LSB_PLUGIN_BASE . 'plugin-run.php';
 
-// Register widget
-add_action( 'widgets_init', function() {
-    register_widget( 'livestreambadger\Stream_Status_Widget' );
-});
-add_filter( 'lsb_stream_status_widget_text', 'do_shortcode' );
+register_activation_hook( __FILE__, array( 'LSB_Plugin_Run', 'install' ) );
+register_deactivation_hook( __FILE__, array( 'LSB_Plugin_Run', 'uninstall' ) );
 
-// Register shortcode
-$embedded_stream_sc = new livestreambadger\LSB_Embedded_Stream();
-add_shortcode( 'livestream', array( $embedded_stream_sc, 'do_shortcode' ) );
+LSB_Plugin_Run::run();
 
-$installer = new livestreambadger\LSB_Installer();
-register_activation_hook( __FILE__, array( $installer, 'install' ) );
-register_deactivation_hook( __FILE__, array( $installer, 'uninstall' ) );
-
-new livestreambadger\LSB_Admin_Settings( 
-    new livestreambadger\LSB_Stream_Storage( 
-        new livestreambadger\LSB_API_Sync() 
-    ) 
-);
