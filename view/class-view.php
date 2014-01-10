@@ -1,4 +1,5 @@
 <?php
+namespace livestreambadger;
 
 abstract class LSB_View {
 

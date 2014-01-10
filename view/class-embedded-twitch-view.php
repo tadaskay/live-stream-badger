@@ -1,4 +1,5 @@
 <?php
+namespace livestreambadger;
 
 class LSB_Embedded_Twitch_View extends LSB_View {
 
