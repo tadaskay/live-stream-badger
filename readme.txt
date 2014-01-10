@@ -92,6 +92,8 @@ No questions yet. [Ask one!](http://wordpress.org/support/plugin/live-stream-bad
 
 == Changelog ==
 
+= 1.4.1 =
+* Bugfix: Embedded stream throwing fatal error  
 = 1.4 =
 * New Feature: Added configurable plugin's settings
 * Bugfix: stream list not updating in certain configurations (WP Cron has been replaced by Transients API)

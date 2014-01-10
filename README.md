@@ -92,6 +92,10 @@ No questions yet. [Ask one!](http://wordpress.org/support/plugin/live-stream-bad
 
 ## Changelog ##
 
+### 1.4.1 ###
+
+* Bugfix: Embedded stream throwing fatal error  
+
 ### 1.4 ###
 
 * New Feature: Added configurable plugin's settings  
