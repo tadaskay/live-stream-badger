@@ -3,7 +3,7 @@
 **Tags:** twitch, live stream, stream status, widget, menu  
 **Requires at least:** 3.7  
 **Tested up to:** 3.8  
-**Stable tag:** 1.4.2  
+**Stable tag:** 1.4.3  
 **License:** GPLv3  
 **License URI:** http://www.gnu.org/licenses/gpl-3.0.html  
 
@@ -91,6 +91,10 @@ No questions yet. [Ask one!](http://wordpress.org/support/plugin/live-stream-bad
 ![1. Live Stream Badger widget is Live!](http://s-plugins.wordpress.org/live-stream-badger/assets/screenshot-1.png)
 
 ## Changelog ##
+
+### 1.4.2-1.4.3 ###
+
+* Minor bugfixes  
 
 ### 1.4.1 ###
 

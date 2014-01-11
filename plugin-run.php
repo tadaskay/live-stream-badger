@@ -6,12 +6,12 @@
  */
 class LSB_Plugin_Run {
 
-    static function lsb_plugin_activation() {
+    static function install() {
         $installer = new livestreambadger\LSB_Installer();
         $installer->install();
     }
 
-    static function lsb_plugin_deactivation() {
+    static function uninstall() {
         $installer = new livestreambadger\LSB_Installer();
         $installer->uninstall();
     }

@@ -17,7 +17,7 @@ class LSB_Installer {
     }
     
     function upgrade( $from, $to ) {
-        if ( $from === '1.3' ) {
+        if ( $from === '1.3' || $from === '1.4' || $from === '1.4.1' || $from === '1.4.2' ) {
             wp_clear_scheduled_hook( 'lsb_update_all_stream_status' );
             delete_option('lsb-stream-storage');
             delete_transient('lsb-stream-storage');
