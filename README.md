@@ -1,3 +1,5 @@
+!UNMAINTAINED! Fork, use at your own risk!
+
 # Live Stream Badger #
 **Contributors:** tkrivickas  
 **Tags:** twitch, live stream, stream status, widget, menu  
